@@ -1,0 +1,158 @@
+<template>
+  <ClassroomNav />
+
+  <Suspense>
+    <template #default>
+      <ClassroomHeader
+        svgPath="M13.403 24h-13.403v-22h3c1.231 0 2.181-1.084 3-2h8c.821.916 1.772 2 3 2h3v9.15c-.485-.098-.987-.15-1.5-.15l-.5.016v-7.016h-4l-2 2h-3.897l-2.103-2h-4v18h9.866c.397.751.919 1.427 1.537 2zm5.097-11c3.035 0 5.5 2.464 5.5 5.5s-2.465 5.5-5.5 5.5c-3.036 0-5.5-2.464-5.5-5.5s2.464-5.5 5.5-5.5zm0 2c1.931 0 3.5 1.568 3.5 3.5s-1.569 3.5-3.5 3.5c-1.932 0-3.5-1.568-3.5-3.5s1.568-3.5 3.5-3.5zm2.5 4h-3v-3h1v2h2v1zm-15.151-4.052l-1.049-.984-.8.823 1.864 1.776 3.136-3.192-.815-.808-2.336 2.385zm6.151 1.052h-2v-1h2v1zm2-2h-4v-1h4v1zm-8.151-4.025l-1.049-.983-.8.823 1.864 1.776 3.136-3.192-.815-.808-2.336 2.384zm8.151 1.025h-4v-1h4v1zm0-2h-4v-1h4v1zm-5-6c0 .552.449 1 1 1 .553 0 1-.448 1-1s-.447-1-1-1c-.551 0-1 .448-1 1z"
+    /></template>
+
+    <template #fallback>
+      <div
+        class="h-14 px-16 py-3 border bg-white shadow-sm rounded-md w-full mx-auto"
+      >
+        <div class="animate-pulse">
+          <div class="h-4 bg-red-400 rounded w-5/12"></div>
+        </div>
+      </div>
+    </template>
+  </Suspense>
+
+  <div class="flex justify-center mt-5">
+    <section
+      class="w-full md:max-w-6xl grid grid-cols-1 md:grid-cols-8 gap-4 sm:gap-8 px-4 sm:px-16 md:px-0 mb-16"
+    >
+      <div
+        class="h-28 col-span-6 md:col-span-2 flex flex-col justify-around bg-white p-6 rounded-md shadow-sm"
+      >
+        <p class="text-xs uppercase text-red-500 font-bold">My Profile</p>
+
+        <div class="flex items-center mt-3">
+          <div class="w-10 h-10 bg-gray-200 rounded-full">
+            <img
+              src="https://placekitten.com/200/202"
+              alt=""
+              class="w-full h-full rounded-full"
+            />
+          </div>
+
+          <div class="ml-3">
+            <h3 class="font-semibold">CatDog</h3>
+            <p class="text-sm">Teacher</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-span-6">
+        <div
+          class="bg-white rounded-md shadow-sm px-8 py-6 mb-5 flex flex-col md:flex-row md:items-center justify-between"
+        >
+          <div
+            class="flex items-center justify-around sm:justify-between -ml-5"
+          >
+            <div
+              class="ml-5 flex flex-col items-center sm:flex-row space-y-2 sm:space-y-0"
+            >
+              <span class="font-semibold">From</span>
+              <input
+                type="time"
+                class="appearance-none border border-gray-600 px-4 py-1 rounded-md ml-3 focus:outline-none focus:ring focus:ring-red-400 focus:ring-opacity-50 focus:border-gray-100"
+              />
+            </div>
+
+            <div
+              class="ml-5 flex flex-col items-center sm:flex-row space-y-2 sm:space-y-0"
+            >
+              <span class="font-semibold">Until</span>
+              <input
+                type="time"
+                class="appearance-none border border-gray-600 px-4 py-1 rounded-md ml-3 focus:outline-none focus:ring focus:ring-red-400 focus:ring-opacity-50 focus:border-gray-100"
+              />
+            </div>
+          </div>
+
+          <div class="flex self-end items-center mt-8 md:mt-0 space-x-3">
+            <button
+              class="flex items-center border border-gray-800 px-4 py-1 rounded-full transition duration-100 ease-in-out hover:bg-yellow-400 hover:border-yellow-400 hover:text-white focus:outline-none"
+            >
+              <svg
+                class="fill-current w-4 h-4 stroke-current stroke-1"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+              >
+                <path
+                  d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"
+                />
+              </svg>
+
+              <span class="inline-block ml-2 text-sm md:text-base">Cancel</span>
+            </button>
+
+            <button
+              class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 rounded-full transition duration-100 ease-in-out transform hover:bg-red-600 hover:border-red-600 focus:translate-y-1 hover:text-white focus:outline-none"
+            >
+              <svg
+                class="fill-current w-4 h-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z"
+                />
+              </svg>
+              <span class="inline-block ml-2 text-sm md:text-base">Post!</span>
+            </button>
+          </div>
+        </div>
+
+        <Suspense>
+          <template #default> <AttendancesList /></template>
+
+          <template #fallback>
+            <div
+              class="border bg-white shadow-sm rounded-md py-5 px-8 w-full mx-auto"
+            >
+              <div class="animate-pulse">
+                <div class="flex space-x-4">
+                  <div class="rounded-full bg-red-400 h-10 w-10"></div>
+                  <div class="flex-1 space-y-3 py-1">
+                    <div class="h-4 bg-red-400 rounded w-4/6"></div>
+                    <div class="space-y-2">
+                      <div class="h-4 bg-red-400 rounded w-5/12"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </Suspense>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script>
+import { defineAsyncComponent } from "vue";
+import ClassroomNav from "./../components/ClassroomNav";
+
+const ClassroomHeader = defineAsyncComponent(() =>
+  import("./../components/ClassroomHeader")
+);
+
+const AttendancesList = defineAsyncComponent(() =>
+  import("./../components/AttendancesList")
+);
+
+export default {
+  components: {
+    ClassroomNav,
+    ClassroomHeader,
+    AttendancesList,
+  },
+};
+</script>
+
+<style>
+</style>
