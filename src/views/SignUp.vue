@@ -231,18 +231,30 @@
         </div>
 
         <router-link
-          :to="{ name: 'Signin' }"
+          :to="{ name: 'Classrooms' }"
           class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white mt-6 py-2 px-8 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full"
         >
           <svg
-            class="fill-current w-4"
+            class="animate-spin -ml-1 h-5 w-5 text-white"
             xmlns="http://www.w3.org/2000/svg"
+            fill="none"
             viewBox="0 0 24 24"
           >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
             <path
-              d="M7 13h10v1h-10v-1zm15-11v22h-20v-22h3c1.229 0 2.18-1.084 3-2h8c.82.916 1.771 2 3 2h3zm-11 1c0 .552.448 1 1 1s1-.448 1-1-.448-1-1-1-1 .448-1 1zm9 15.135c-1.073 1.355-2.448 2.763-3.824 3.865h3.824v-3.865zm0-14.135h-4l-2 2h-3.898l-2.102-2h-4v18h7.362c4.156 0 2.638-6 2.638-6s6 1.65 6-2.457v-9.543zm-13 12h5v-1h-5v1zm0-4h10v-1h-10v1zm0-2h10v-1h-10v1z"
-            />
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
           </svg>
+
           <span class="ml-2">Sign up</span>
         </router-link>
       </form>
