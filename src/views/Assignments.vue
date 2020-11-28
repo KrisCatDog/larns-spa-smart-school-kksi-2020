@@ -9,7 +9,7 @@
 
     <template #fallback>
       <div
-        class="h-14 px-16 py-3 border bg-white shadow-sm rounded-md w-full mx-auto"
+        class="h-14 px-16 py-4 border bg-white shadow-sm rounded-md w-full mx-auto"
       >
         <div class="animate-pulse">
           <div class="h-4 bg-red-400 rounded w-5/12"></div>
@@ -22,36 +22,45 @@
     <section
       class="w-full md:max-w-6xl grid grid-cols-1 md:grid-cols-8 gap-4 sm:gap-8 px-4 sm:px-16 md:px-0 mb-16"
     >
-      <div
-        class="h-28 col-span-6 md:col-span-2 flex flex-col justify-around bg-white p-6 rounded-md shadow-sm"
-      >
-        <p class="text-xs uppercase text-red-500 font-bold">My Profile</p>
+      <Suspense>
+        <template #default>
+          <SideClassroomProfile />
+        </template>
 
-        <div class="flex items-center mt-3">
-          <div class="w-10 h-10 bg-gray-200 rounded-full">
-            <img
-              src="https://placekitten.com/200/202"
-              alt=""
-              class="w-full h-full rounded-full"
-            />
+        <template #fallback>
+          <div
+            class="h-28 col-span-6 md:col-span-2 border bg-white shadow-sm rounded-md p-6 w-full mx-auto"
+          >
+            <div class="animate-pulse">
+              <div class="h-3 bg-red-400 rounded w-1/2"></div>
+              <div class="flex space-x-4 mt-3">
+                <div class="rounded-full bg-red-400 h-10 w-10"></div>
+                <div class="flex-1 space-y-3 py-1">
+                  <div class="h-3 bg-red-400 rounded w-3/4"></div>
+                  <div class="space-y-2">
+                    <div class="h-3 bg-red-400 rounded w-5/12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div class="ml-3">
-            <h3 class="font-semibold">CatDog</h3>
-            <p class="text-sm">Teacher</p>
-          </div>
-        </div>
-      </div>
+        </template>
+      </Suspense>
 
       <div class="col-span-6">
-        <div class="bg-white rounded-md shadow-sm px-8 py-5 mb-5 flex flex-col">
+        <form
+          @submit.prevent="submitStoreAssignment"
+          class="bg-white rounded-md shadow-sm px-8 py-5 mb-5 flex flex-col"
+        >
           <input
+            v-model="form.name"
             class="appearance-none bg-gray-100 mb-4 px-4 py-2 font-semibold rounded-md focus:ring focus:ring-red-400 focus:ring-opacity-50 focus:outline-none"
             type="text"
-            placeholder="Assignment title.."
+            placeholder="Assignment name.."
           />
 
           <textarea
+            v-model="form.description"
             class="appearance-none h-28 bg-gray-100 text-sm font-medium mb-4 px-4 py-2 rounded-md resize-y focus:ring focus:ring-red-400 focus:ring-opacity-50 focus:outline-none"
             placeholder="Assignment description.."
           ></textarea>
@@ -75,6 +84,7 @@
               <span class="inline-block ml-2">Cancel</span>
             </button>
             <button
+              type="submit"
               class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 rounded-full transition duration-100 ease-in-out transform hover:bg-red-600 hover:border-red-600 focus:translate-y-1 hover:text-white focus:outline-none"
             >
               <svg
@@ -89,7 +99,7 @@
               <span class="inline-block ml-2">Post!</span>
             </button>
           </div>
-        </div>
+        </form>
 
         <Suspense>
           <template #default>
@@ -120,8 +130,10 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent, reactive } from "vue";
 import ClassroomNav from "./../components/ClassroomNav";
+import { useRoute } from "vue-router";
+import useAssignments from "./../modules/assignments";
 
 const ClassroomHeader = defineAsyncComponent(() =>
   import("./../components/ClassroomHeader")
@@ -131,11 +143,30 @@ const AssignmentsList = defineAsyncComponent(() =>
   import("./../components/AssignmentsList")
 );
 
+const SideClassroomProfile = defineAsyncComponent(() =>
+  import("./../components/SideClassroomProfile")
+);
+
 export default {
   components: {
     ClassroomNav,
     ClassroomHeader,
     AssignmentsList,
+    SideClassroomProfile,
+  },
+  setup() {
+    const route = useRoute();
+    const form = reactive({ name: null, description: null });
+    const { store } = useAssignments();
+
+    async function submitStoreAssignment() {
+      await store(route.params.id, form);
+    }
+
+    return {
+      form,
+      submitStoreAssignment,
+    };
   },
 };
 </script>
