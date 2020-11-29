@@ -1,25 +1,28 @@
 <template>
-  <nav id="nav" class="flex justify-between items-center px-16 py-8">
-    <img src="./../assets/logo.svg" alt="larns logo" class="w-24" />
+  <nav
+    id="nav"
+    class="flex justify-between items-center px-6 sm:px-16 py-8 z-50"
+  >
+    <img src="./../assets/logo.svg" alt="larns logo" class="w-20" />
 
     <div class="-mr-6">
       <router-link
         :to="{ name: 'Home' }"
         class="inline-block text-black-300 font-semibold px-6"
       >
-        <span class="inline-block pb-1">Home</span>
+        <span class="inline-block pb-1 text-sm 2xl:text-lg">Home</span>
       </router-link>
       <router-link
         :to="{ name: 'Signin' }"
         class="inline-block text-black-300 font-semibold px-6"
       >
-        <span class="inline-block pb-1">Sign In</span>
+        <span class="inline-block pb-1 text-sm 2xl:text-lg">Sign In</span>
       </router-link>
       <router-link
         :to="{ name: 'Signup' }"
         class="inline-block text-black-300 font-semibold px-6"
       >
-        <span class="inline-block pb-1">Sign Up</span>
+        <span class="inline-block pb-1 text-sm 2xl:text-lg">Sign Up</span>
       </router-link>
     </div>
   </nav>
