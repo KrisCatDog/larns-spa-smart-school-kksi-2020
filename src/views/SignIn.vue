@@ -29,7 +29,7 @@
     <GuestNav />
 
     <section
-      class="flex-1 flex items-center justify-between z-20 px-16 sm:px-32"
+      class="flex-1 flex items-center justify-between z-20 px-14 sm:px-32"
     >
       <div class="flex-1">
         <img
@@ -39,7 +39,7 @@
         />
 
         <svg
-          class="w-72 sm:w-96 lg:w-128 absolute bottom-24 sm:bottom-20 right-10 md:static z-0"
+          class="w-72 sm:w-96 lg:w-128 absolute bottom-16 right-10 md:static z-0"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 911.60164 451.38424"
         >
@@ -227,7 +227,7 @@
         <button
           :disabled="form.isSubmitClicked"
           type="submit"
-          class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white mt-6 py-2 px-8 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
+          class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white sm:mt-6 py-2 px-8 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
           :class="{
             'disabled:opacity-75 disabled:cursor-not-allowed':
               form.isSubmitClicked,
