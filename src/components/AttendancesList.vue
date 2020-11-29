@@ -44,8 +44,22 @@
       </p>
     </div>
 
-    <div class="md:flex items-center hidden">
+    <div class="font-medium text-sm" v-if="attendance.attendance_responds[0]">
+      Your status:
+      <span
+        class="capitalize"
+        :class="statusLabelStyle(attendance.attendance_responds[0].status)"
+      >
+        {{ attendance.attendance_responds[0].status }}
+      </span>
+    </div>
+
+    <div
+      class="md:flex items-center hidden"
+      v-else-if="!attendance.attendance_responds[0]"
+    >
       <button
+        @click.prevent="submitAttendance(attendance.id, 'attend')"
         class="flex items-center border bg-green-500 border-green-500 text-white px-4 py-1 mr-1 rounded-full transition duration-100 ease-in-out transform hover:bg-green-600 hover:border-green-600 focus:translate-y-1 hover:text-white focus:outline-none"
       >
         <svg
@@ -57,10 +71,11 @@
             d="M20 12.194v9.806h-20v-20h18.272l-1.951 2h-14.321v16h16v-5.768l2-2.038zm.904-10.027l-9.404 9.639-4.405-4.176-3.095 3.097 7.5 7.273 12.5-12.737-3.096-3.096z"
           />
         </svg>
-        <span class="inline-block ml-2 text-sm">I'm Attend</span>
+        <span class="inline-block ml-2 text-sm">Attend</span>
       </button>
 
       <button
+        @click.prevent="submitAttendance(attendance.id, 'not attend')"
         class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 rounded-full transition duration-100 ease-in-out transform hover:bg-red-600 hover:border-red-600 focus:translate-y-1 hover:text-white focus:outline-none"
       >
         <svg
@@ -72,7 +87,7 @@
             d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"
           />
         </svg>
-        <span class="inline-block ml-2 text-sm">I Can't</span>
+        <span class="inline-block ml-2 text-sm">Can't</span>
       </button>
     </div>
 
@@ -100,12 +115,25 @@ export default {
   name: "AttendancesList",
   async setup() {
     const route = useRoute();
-    const { load, attendances } = useAttendances();
+    const { load, attendances, storeRespond } = useAttendances();
 
     await load(route.params.id);
 
+    function statusLabelStyle(status) {
+      return {
+        "text-green-500": status == "attend",
+        "text-red-500": status == "not attend",
+      };
+    }
+
+    async function submitAttendance(id, status) {
+      await storeRespond(id, { status });
+    }
+
     return {
       attendances,
+      submitAttendance,
+      statusLabelStyle,
     };
   },
 };
