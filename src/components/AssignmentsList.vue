@@ -21,7 +21,7 @@
 
       <div class="ml-5 flex flex-col w-full">
         <h3 class="truncate font-semibold text-sm">{{ assignment.name }}</h3>
-        <p class="mt-1 text-sm">Posted at Nov 13</p>
+        <p class="mt-1 text-sm">Posted at {{ assignment.created_at }}</p>
       </div>
     </div>
 
