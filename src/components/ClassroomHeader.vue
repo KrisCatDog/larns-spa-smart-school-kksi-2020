@@ -16,7 +16,7 @@
           <path :d="svgPath" />
         </svg>
 
-        <span class="inline-block ml-2">{{ classroom.grade }}</span>
+        <span class="inline-block ml-2">{{ classroom.name }}</span>
       </h1>
 
       <h1
