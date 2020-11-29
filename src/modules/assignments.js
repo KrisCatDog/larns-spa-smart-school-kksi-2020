@@ -2,7 +2,7 @@ import axios from "axios";
 import { reactive, toRefs } from "vue";
 
 const state = reactive({
-  assignments: null,
+  assignments: [],
 });
 
 export default function useAssignments() {
@@ -34,7 +34,7 @@ export default function useAssignments() {
         }
       );
 
-      state.assignments.push(response.data.data);
+      state.assignments.unshift(response.data.data);
     } catch (e) {
       console.log(e.response);
     }
