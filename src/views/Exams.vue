@@ -10,7 +10,7 @@
 
     <template #fallback>
       <div
-        class="h-14 px-16 py-3 border bg-white shadow-sm rounded-md w-full mx-auto"
+        class="h-14 px-16 py-4 border bg-white shadow-sm rounded-md w-full mx-auto"
       >
         <div class="animate-pulse">
           <div class="h-4 bg-red-400 rounded w-5/12"></div>
@@ -23,26 +23,30 @@
     <section
       class="w-full md:max-w-6xl grid grid-cols-1 md:grid-cols-8 gap-4 sm:gap-8 px-4 sm:px-16 md:px-0 mb-16"
     >
-      <div
-        class="h-28 col-span-6 md:col-span-2 flex flex-col justify-around bg-white p-6 rounded-md shadow-sm"
-      >
-        <p class="text-xs uppercase text-red-500 font-bold">My Profile</p>
+      <Suspense>
+        <template #default>
+          <SideClassroomProfile />
+        </template>
 
-        <div class="flex items-center mt-3">
-          <div class="w-10 h-10 bg-gray-200 rounded-full">
-            <img
-              src="https://placekitten.com/200/202"
-              alt=""
-              class="w-full h-full rounded-full"
-            />
+        <template #fallback>
+          <div
+            class="h-28 col-span-6 md:col-span-2 border bg-white shadow-sm rounded-md p-6 w-full mx-auto"
+          >
+            <div class="animate-pulse">
+              <div class="h-3 bg-red-400 rounded w-1/2"></div>
+              <div class="flex space-x-4 mt-3">
+                <div class="rounded-full bg-red-400 h-10 w-10"></div>
+                <div class="flex-1 space-y-3 py-1">
+                  <div class="h-3 bg-red-400 rounded w-3/4"></div>
+                  <div class="space-y-2">
+                    <div class="h-3 bg-red-400 rounded w-5/12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-
-          <div class="ml-3">
-            <h3 class="font-semibold">CatDog</h3>
-            <p class="text-sm">Teacher</p>
-          </div>
-        </div>
-      </div>
+        </template>
+      </Suspense>
 
       <div class="col-span-6">
         <div class="bg-white rounded-md shadow-sm px-8 py-5 mb-5 flex flex-col">
@@ -133,11 +137,16 @@ const ExamsList = defineAsyncComponent(() =>
   import("./../components/ExamsList")
 );
 
+const SideClassroomProfile = defineAsyncComponent(() =>
+  import("./../components/SideClassroomProfile")
+);
+
 export default {
   components: {
     ClassroomNav,
     ClassroomHeader,
     ExamsList,
+    SideClassroomProfile,
   },
 };
 </script>
