@@ -40,5 +40,28 @@ export default function useAttendances() {
     }
   };
 
-  return { ...toRefs(state), load, store };
+  const storeRespond = async (id, data) => {
+    try {
+      const response = await axios.post(
+        `/attendances/${id}/attendance-responds`,
+        data,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      const index = state.attendances.findIndex(
+        (attendance) => attendance.id === id
+      );
+
+      state.attendances[index].attendance_responds.push(response.data.data);
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
+  return { ...toRefs(state), load, store, storeRespond };
 }
