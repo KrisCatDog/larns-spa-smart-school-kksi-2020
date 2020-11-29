@@ -185,8 +185,8 @@
       >
         <h2 class="text-3xl font-bold">Sign in</h2>
 
-        <p class="mt-3 text-red-500 text-sm font-semibold" v-if="error">
-          {{ error }}
+        <p class="mt-3 text-red-500 text-sm font-semibold" v-if="errorSignin">
+          {{ errorSignin }}
         </p>
 
         <div class="flex flex-col mt-12 mb-6">
@@ -199,8 +199,11 @@
             id="email"
             class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
           />
-          <p class="mt-2 text-red-500 text-xs font-semibold" v-if="errorEmail">
-            {{ errorEmail }}
+          <p
+            class="mt-2 text-red-500 text-xs font-semibold"
+            v-if="errorSigninEmail"
+          >
+            {{ errorSigninEmail }}
           </p>
         </div>
 
@@ -218,9 +221,9 @@
           />
           <p
             class="mt-2 text-red-500 text-xs font-semibold"
-            v-if="errorPassword"
+            v-if="errorSigninPassword"
           >
-            {{ errorPassword }}
+            {{ errorSigninPassword }}
           </p>
         </div>
 
@@ -284,14 +287,19 @@ export default {
       password: "password",
       isSubmitClicked: false,
     });
-    const { errorEmail, errorPassword, signIn, error } = useAuth();
+    const {
+      errorSigninEmail,
+      errorSigninPassword,
+      signIn,
+      errorSignin,
+    } = useAuth();
 
     async function submit() {
       form.isSubmitClicked = true;
 
-      await signIn({ email: form.email, password: form.password });
+      await signIn(form);
 
-      if (errorEmail || errorPassword || error) {
+      if (errorSigninEmail || errorSigninPassword || errorSignin) {
         form.isSubmitClicked = false;
       }
 
@@ -300,10 +308,10 @@ export default {
 
     return {
       form,
-      errorEmail,
-      errorPassword,
+      errorSigninEmail,
+      errorSigninPassword,
       submit,
-      error,
+      errorSignin,
     };
   },
 };

@@ -1,13 +1,20 @@
 import axios from "axios";
 import { reactive, toRefs } from "vue";
+import { useRouter } from "vue-router";
 
 const state = reactive({
-  error: null,
-  errorEmail: null,
-  errorPassword: null,
+  errorSignin: null,
+  errorSigninEmail: null,
+  errorSigninPassword: null,
+  errorSignup: null,
+  errorSignupName: null,
+  errorSignupEmail: null,
+  errorSignupPassword: null,
 });
 
 export default function useAuth() {
+  const router = useRouter();
+
   const authUser = async () => {
     try {
       const response = await axios.get(`/user`, {
@@ -29,32 +36,77 @@ export default function useAuth() {
 
       localStorage.setItem("authToken", response.data.token);
 
-      state.error = null;
-      state.errorEmail = null;
-      state.errorPassword = null;
+      state.errorSignin = null;
+      state.errorSigninEmail = null;
+      state.errorSigninPassword = null;
     } catch (e) {
       if (
         e.response.data.errors !== undefined &&
         e.response.data.errors.email
       ) {
-        state.errorEmail = e.response.data.errors.email[0];
+        state.errorSigninEmail = e.response.data.errors.email[0];
       } else {
-        state.errorEmail = null;
+        state.errorSigninEmail = null;
       }
 
       if (
         e.response.data.errors !== undefined &&
         e.response.data.errors.password
       ) {
-        state.errorPassword = e.response.data.errors.password[0];
+        state.errorSigninPassword = e.response.data.errors.password[0];
       } else {
-        state.errorPassword = null;
+        state.errorSigninPassword = null;
       }
 
       if (e.response.status === 401) {
-        state.error = e.response.data.message;
+        state.errorSignin = e.response.data.message;
       } else {
-        state.error = null;
+        state.errorSignin = null;
+      }
+    }
+  };
+
+  const signUp = async (credentials) => {
+    try {
+      const response = await axios.post("/register", credentials);
+
+      localStorage.setItem("authToken", response.data.token);
+
+      state.errorSignup = null;
+      state.errorSignupName = null;
+      state.errorSignupEmail = null;
+      state.errorSignupPassword = null;
+
+      router.replace({ name: "Classrooms" });
+    } catch (e) {
+      if (e.response.data.errors !== undefined && e.response.data.errors.name) {
+        state.errorSignupName = e.response.data.errors.name[0];
+      } else {
+        state.errorSignupName = null;
+      }
+
+      if (
+        e.response.data.errors !== undefined &&
+        e.response.data.errors.email
+      ) {
+        state.errorSignupEmail = e.response.data.errors.email[0];
+      } else {
+        state.errorSignupEmail = null;
+      }
+
+      if (
+        e.response.data.errors !== undefined &&
+        e.response.data.errors.password
+      ) {
+        state.errorSignupPassword = e.response.data.errors.password[0];
+      } else {
+        state.errorSignupPassword = null;
+      }
+
+      if (e.response.status === 401) {
+        state.errorSignup = e.response.data.message;
+      } else {
+        state.errorSignup = null;
       }
     }
   };
@@ -74,5 +126,5 @@ export default function useAuth() {
     }
   };
 
-  return { ...toRefs(state), signIn, logout, authUser };
+  return { ...toRefs(state), signIn, logout, authUser, signUp };
 }

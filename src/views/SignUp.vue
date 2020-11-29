@@ -180,18 +180,30 @@
       <form
         class="w-96 2xl:w-2/5 flex flex-col z-20 pb-32 sm:pb-20 md:pb-0"
         autocomplete="off"
+        @submit.prevent="submit"
       >
-        <h2 class="text-3xl font-bold mb-12">Sign up</h2>
+        <h2 class="text-3xl font-bold">Sign up</h2>
 
-        <div class="flex flex-col mb-6">
+        <p class="mt-3 text-red-500 text-sm font-semibold" v-if="errorSignup">
+          {{ errorSignup }}
+        </p>
+
+        <div class="flex flex-col mt-12 mb-6">
           <label for="name" class="text-xs font-bold tracking-wide uppercase"
             >Name
           </label>
           <input
+            v-model="form.name"
             type="text"
             id="name"
             class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
           />
+          <p
+            class="mt-2 text-red-500 text-xs font-semibold"
+            v-if="errorSignupName"
+          >
+            {{ errorSignupName }}
+          </p>
         </div>
 
         <div class="flex flex-col mb-6">
@@ -199,10 +211,17 @@
             >Email
           </label>
           <input
+            v-model="form.email"
             type="text"
             id="email"
             class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
           />
+          <p
+            class="mt-2 text-red-500 text-xs font-semibold"
+            v-if="errorSignupEmail"
+          >
+            {{ errorSignupEmail }}
+          </p>
         </div>
 
         <div class="flex flex-col mb-6">
@@ -212,10 +231,17 @@
             >Password
           </label>
           <input
-            type="text"
+            v-model="form.password"
+            type="password"
             id="password"
             class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
           />
+          <p
+            class="mt-2 text-red-500 text-xs font-semibold"
+            v-if="errorSignupPassword"
+          >
+            {{ errorSignupPassword }}
+          </p>
         </div>
         <div class="flex flex-col mb-6">
           <label
@@ -224,21 +250,28 @@
             >Repeat Password
           </label>
           <input
-            type="text"
+            v-model="form.password_confirmation"
+            type="password"
             id="repeat-password"
             class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
           />
         </div>
 
-        <router-link
-          :to="{ name: 'Classrooms' }"
-          class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white mt-6 py-2 px-8 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full"
+        <button
+          :disabled="form.isSubmitClicked"
+          type="submit"
+          class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white mt-6 py-2 px-8 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
+          :class="{
+            'disabled:opacity-75 disabled:cursor-not-allowed':
+              form.isSubmitClicked,
+          }"
         >
           <svg
-            class="animate-spin -ml-1 h-5 w-5 text-white"
+            class="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
+            v-if="form.isSubmitClicked"
           >
             <circle
               class="opacity-25"
@@ -255,8 +288,8 @@
             ></path>
           </svg>
 
-          <span class="ml-2">Sign up</span>
-        </router-link>
+          <span>Sign up</span>
+        </button>
       </form>
     </section>
 
@@ -265,14 +298,57 @@
 </template>
 
 <script>
+import { reactive } from "vue";
 import GuestNav from "@/components/GuestNav.vue";
 import GuestFooter from "@/components/GuestFooter.vue";
+import useAuth from "../modules/auth";
 
 export default {
   name: "SignUp",
   components: {
     GuestNav,
     GuestFooter,
+  },
+  setup() {
+    const form = reactive({
+      name: null,
+      email: null,
+      password: null,
+      password_confirmation: null,
+      isSubmitClicked: false,
+    });
+    const {
+      errorSignupName,
+      errorSignupEmail,
+      errorSignupPassword,
+      signUp,
+      errorSignup,
+    } = useAuth();
+
+    async function submit() {
+      form.isSubmitClicked = true;
+
+      await signUp(form);
+
+      if (
+        errorSignupName ||
+        errorSignupEmail ||
+        errorSignupPassword ||
+        errorSignup
+      ) {
+        form.isSubmitClicked = false;
+      }
+    }
+
+    return {
+      submit,
+      form,
+      errorSignupName,
+      errorSignupEmail,
+      errorSignupPassword,
+      signUp,
+      errorSignup,
+    };
   },
 };
 </script>
