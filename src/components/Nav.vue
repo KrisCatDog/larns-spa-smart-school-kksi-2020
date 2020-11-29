@@ -44,6 +44,7 @@
           <p class="px-4 py-2 text-xs tracking-wide">Manage Account</p>
 
           <button
+            @click="submitLogout"
             class="w-full text-black-300 font-medium px-4 py-2 flex items-center hover:bg-gray-100 focus:outline-none"
           >
             <div class="inline-block text-sm">Logout</div>
@@ -79,11 +80,26 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
+import { ref } from "vue";
+import useAuth from "../modules/auth";
+
 export default {
   name: "Nav",
-  data() {
+  setup() {
+    const router = useRouter();
+    const isAccountModalActive = ref(false);
+    const { logout } = useAuth();
+
+    async function submitLogout() {
+      await logout();
+
+      router.push({ name: "Signin" });
+    }
+
     return {
-      isAccountModalActive: false,
+      isAccountModalActive,
+      submitLogout,
     };
   },
 };
