@@ -25,9 +25,9 @@
       </div>
     </div>
 
-    <div class="flex">
+    <div class="flex space-x-6">
       <button
-        class="flex items-center border border-red-500 text-red-500 px-4 py-1 mr-6 text-sm rounded-full transition duration-100 ease-in-out hover:bg-red-500 hover:border-red-500 hover:text-white focus:outline-none"
+        class="flex items-center border border-red-500 text-red-500 px-4 py-1 text-sm rounded-full transition duration-100 ease-in-out hover:bg-red-500 hover:border-red-500 hover:text-white focus:outline-none"
       >
         <svg
           class="fill-current w-4 h-4"
@@ -43,7 +43,7 @@
         <span class="inline-block ml-2">Detail</span>
       </button>
 
-      <button>
+      <button v-if="user.role.name == 'Teacher'">
         <svg
           class="fill-current w-4 h-4"
           viewBox="0 0 24 24"
@@ -59,8 +59,10 @@
 </template>
 
 <script>
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 import useAnnoucements from "./../modules/announcements";
+import useAuth from "../modules/auth";
 
 export default {
   name: "AnnoucementsList",
@@ -68,10 +70,16 @@ export default {
     const route = useRoute();
     const { load, announcements } = useAnnoucements();
 
-    await load(route.params.id);
+    const user = ref(null);
+    const { authUser } = useAuth();
+
+    user.value = await authUser();
+
+    await load(route.params.classroomId);
 
     return {
       announcements,
+      user,
     };
   },
 };

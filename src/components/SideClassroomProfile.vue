@@ -15,7 +15,7 @@
 
       <div class="ml-3">
         <h3 class="font-semibold">{{ user.name }}</h3>
-        <p class="text-sm">Teacher</p>
+        <p class="text-sm">{{ user.role.name }}</p>
       </div>
     </div>
   </div>
