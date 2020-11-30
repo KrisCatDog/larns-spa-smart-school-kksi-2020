@@ -5,7 +5,10 @@
     <div
       v-for="classroom in classrooms"
       @click="
-        $router.push({ name: 'Attendances', params: { id: classroom.id } })
+        $router.push({
+          name: 'Attendances',
+          params: { classroomId: classroom.uuid },
+        })
       "
       :key="classroom.id"
       class="flex h-36 rounded-xl bg-white shadow-sm transition duration-100 ease-in transform hover:translate-y-1 cursor-pointer hover:bg-red-50"
