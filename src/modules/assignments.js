@@ -40,5 +40,23 @@ export default function useAssignments() {
     }
   };
 
-  return { ...toRefs(state), load, store };
+  const show = async (classroomId, id) => {
+    try {
+      const response = await axios.get(
+        `/classrooms/${classroomId}/assignments/${id}`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      return response.data.data;
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
+  return { ...toRefs(state), load, store, show };
 }
