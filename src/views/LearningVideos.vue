@@ -83,23 +83,7 @@
               <span class="inline-block ml-2">Attach Video!</span>
             </button>
 
-            <div class="flex items-center">
-              <button
-                type="submit"
-                class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 mr-3 rounded-full transition duration-100 ease-in-out transform hover:bg-red-600 hover:border-red-600 focus:translate-y-1 hover:text-white focus:outline-none"
-              >
-                <svg
-                  class="fill-current w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z"
-                  />
-                </svg>
-                <span class="inline-block ml-2">Post!</span>
-              </button>
-
+            <div class="flex items-center space-x-3">
               <button
                 class="flex items-center border border-gray-800 px-4 py-1 rounded-full transition duration-100 ease-in-out hover:bg-yellow-400 hover:border-yellow-400 hover:text-white focus:outline-none"
               >
@@ -116,6 +100,22 @@
                 </svg>
 
                 <span class="inline-block ml-2">Cancel</span>
+              </button>
+
+              <button
+                type="submit"
+                class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 rounded-full transition duration-100 ease-in-out transform hover:bg-red-600 hover:border-red-600 focus:translate-y-1 hover:text-white focus:outline-none"
+              >
+                <svg
+                  class="fill-current w-4 h-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z"
+                  />
+                </svg>
+                <span class="inline-block ml-2">Post!</span>
               </button>
             </div>
           </div>
