@@ -65,12 +65,15 @@ export default {
     const route = useRoute();
     const classroom = ref({});
 
-    const response = await axios.get(`/classrooms/${route.params.id}`, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      },
-    });
+    const response = await axios.get(
+      `/classrooms/${route.params.classroomId}`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      }
+    );
 
     classroom.value = response.data.data;
 

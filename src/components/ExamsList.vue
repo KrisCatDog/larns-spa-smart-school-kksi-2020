@@ -69,12 +69,15 @@ export default {
     const route = useRoute();
     const state = reactive({ exams: [] });
 
-    const response = await axios.get(`/classrooms/${route.params.id}/exams`, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      },
-    });
+    const response = await axios.get(
+      `/classrooms/${route.params.classroomId}/exams`,
+      {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      }
+    );
 
     state.exams = response.data.data;
 

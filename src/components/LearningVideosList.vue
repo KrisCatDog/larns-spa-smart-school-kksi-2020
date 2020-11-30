@@ -72,7 +72,7 @@ export default {
     const state = reactive({ learningVideos: [] });
 
     const response = await axios.get(
-      `/classrooms/${route.params.id}/class-videos`,
+      `/classrooms/${route.params.classroomId}/class-videos`,
       {
         headers: {
           Accept: "application/json",

@@ -130,7 +130,7 @@ export default {
 
     user.value = await authUser();
 
-    await load(route.params.id);
+    await load(route.params.classroomId);
 
     function statusLabelStyle(status) {
       return {
