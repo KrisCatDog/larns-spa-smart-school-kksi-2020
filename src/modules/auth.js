@@ -24,7 +24,7 @@ export default function useAuth() {
         },
       });
 
-      return response.data;
+      return response.data.data;
     } catch (e) {
       console.log(e.response);
     }
