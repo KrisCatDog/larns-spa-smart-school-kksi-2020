@@ -88,27 +88,7 @@
               type="submit"
               class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 rounded-full transition duration-100 ease-in-out transform hover:bg-red-600 hover:border-red-600 focus:translate-y-1 hover:text-white focus:outline-none"
             >
-              <svg
-                class="animate-spin -ml-1 h-4 w-4 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                v-if="form.isSubmitClicked"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
+              <CircleLoading v-if="form.isSubmitClicked" />
 
               <svg
                 v-else-if="!form.isSubmitClicked"
@@ -132,10 +112,12 @@
 
           <template #fallback>
             <div
-              class="border bg-white shadow-sm rounded-md py-5 px-8 w-full mx-auto"
+              v-for="index in 4"
+              :key="index"
+              class="border bg-white shadow-sm rounded-md py-5 px-8 mb-4 w-full mx-auto"
             >
               <div class="animate-pulse">
-                <div class="flex space-x-4">
+                <div class="flex items-center space-x-4">
                   <div class="rounded-full bg-red-400 h-10 w-10"></div>
                   <div class="flex-1 space-y-3 py-1">
                     <div class="h-4 bg-red-400 rounded w-4/6"></div>
@@ -156,6 +138,7 @@
 <script>
 import { defineAsyncComponent, reactive } from "vue";
 import ClassroomNav from "./../components/ClassroomNav";
+import CircleLoading from "./../components/CircleLoading";
 import { useRoute } from "vue-router";
 import useAssignments from "./../modules/assignments";
 
@@ -177,6 +160,7 @@ export default {
     ClassroomHeader,
     AssignmentsList,
     SideClassroomProfile,
+    CircleLoading,
   },
   setup() {
     const route = useRoute();
