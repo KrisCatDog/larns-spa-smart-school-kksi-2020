@@ -80,9 +80,12 @@
     >
       <button
         @click.prevent="submitAttendance(attendance.id, 'attend')"
-        class="flex items-center border bg-green-500 border-green-500 text-white px-4 py-1 rounded-bl-lg transition duration-100 ease-in-out transform hover:bg-green-600 hover:border-green-600 focus:translate-y-1 hover:text-white focus:outline-none"
+        class="flex items-center border bg-green-500 border-green-500 text-white px-4 py-1 rounded-bl-lg hover:bg-green-600 hover:border-green-600 hover:text-white focus:outline-none"
       >
+        <CircleLoading v-if="isSubmitted" />
+
         <svg
+          v-if="!isSubmitted"
           class="fill-current w-4 h-4"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -96,9 +99,12 @@
 
       <button
         @click.prevent="submitAttendance(attendance.id, 'not attend')"
-        class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 rounded-br-lg transition duration-100 ease-in-out transform hover:bg-red-600 hover:border-red-600 focus:translate-y-1 hover:text-white focus:outline-none"
+        class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 rounded-br-lg hover:bg-red-600 hover:border-red-600 hover:text-white focus:outline-none"
       >
+        <CircleLoading v-if="isSubmitted" />
+
         <svg
+          v-if="!isSubmitted"
           class="fill-current w-4 h-4 stroke-current stroke-1"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -118,11 +124,16 @@ import { ref } from "vue";
 import { useRoute } from "vue-router";
 import useAuth from "../modules/auth";
 import useAttendances from "./../modules/attendances";
+import CircleLoading from "./../components/CircleLoading";
 
 export default {
   name: "AttendancesList",
+  components: {
+    CircleLoading,
+  },
   async setup() {
     const route = useRoute();
+    const isSubmitted = ref(false);
     const { load, attendances, storeRespond } = useAttendances();
 
     const user = ref(null);
@@ -140,7 +151,11 @@ export default {
     }
 
     async function submitAttendance(id, status) {
+      isSubmitted.value = true;
+
       await storeRespond(id, { status });
+
+      isSubmitted.value = false;
     }
 
     return {
@@ -148,6 +163,7 @@ export default {
       attendances,
       submitAttendance,
       statusLabelStyle,
+      isSubmitted,
     };
   },
 };
