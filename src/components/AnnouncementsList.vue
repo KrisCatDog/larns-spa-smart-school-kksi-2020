@@ -27,6 +27,15 @@
 
     <div class="flex space-x-6">
       <button
+        @click="
+          $router.push({
+            name: 'AnnouncementDetail',
+            params: {
+              classroomId: $route.params.classroomId,
+              announcementId: announcement.id,
+            },
+          })
+        "
         class="flex items-center border border-red-500 text-red-500 px-4 py-1 text-sm rounded-full transition duration-100 ease-in-out hover:bg-red-500 hover:border-red-500 hover:text-white focus:outline-none"
       >
         <svg

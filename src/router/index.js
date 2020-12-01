@@ -79,6 +79,15 @@ const routes = [
     },
   },
   {
+    path: "/classrooms/:classroomId/announcements/:announcementId",
+    name: "AnnouncementDetail",
+    component: () => import("../views/AnnouncementDetail.vue"),
+    meta: {
+      title: "Announcement Detail - Classroom",
+      middleware: [auth],
+    },
+  },
+  {
     path: "/classrooms/:classroomId/learning-videos",
     name: "LearningVideos",
     component: () => import("../views/LearningVideos.vue"),
