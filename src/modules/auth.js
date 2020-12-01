@@ -26,7 +26,9 @@ export default function useAuth() {
 
       return response.data.data;
     } catch (e) {
-      console.log(e.response);
+      localStorage.removeItem("authToken");
+
+      router.push({ name: "Signin" });
     }
   };
 
