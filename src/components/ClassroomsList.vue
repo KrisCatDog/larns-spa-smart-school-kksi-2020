@@ -21,9 +21,9 @@
         "
       ></div>
 
-      <div class="flex flex-col justify-between py-4 px-5 w-56">
+      <div class="flex flex-col justify-between py-4 px-5 w-64">
         <div>
-          <h2 class="text-lg font-bold">{{ classroom.name }}</h2>
+          <h2 class="text-lg font-bold truncate">{{ classroom.name }}</h2>
           <h4 class="text-sm font-medium mt-2">
             {{ classroom.grade + " " + classroom.major }}
           </h4>
