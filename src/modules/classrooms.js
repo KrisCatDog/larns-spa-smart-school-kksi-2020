@@ -26,9 +26,25 @@ export default function useClassrooms() {
     state.classrooms.unshift(response.data.data);
   };
 
+  const joinClass = async (data) => {
+    try {
+      const response = await axios.post(`/classrooms/join-class`, data, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+
+      state.classrooms.unshift(response.data.data);
+    } catch(e) {
+      console.log(e.response);
+    }
+  }
+
   return {
     ...toRefs(state),
     load,
     store,
+    joinClass
   };
 }
