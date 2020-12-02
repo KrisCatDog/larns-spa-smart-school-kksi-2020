@@ -21,6 +21,7 @@
     </h1>
 
     <button
+      v-if="user && user.role.name == 'Teacher'"
       @click.prevent="isCreateClassModalActive = !isCreateClassModalActive"
       class="flex items-center border border-gray-800 px-5 py-1 rounded-full transition duration-100 ease-in-out hover:bg-red-400 hover:border-red-400 hover:text-white focus:outline-none"
     >
@@ -38,6 +39,7 @@
     </button>
 
     <button
+      v-if="user && user.role.name == 'Student'"
       @click.prevent="isJoinClassModalActive = !isJoinClassModalActive"
       class="flex items-center border border-gray-800 px-5 py-1 rounded-full transition duration-100 ease-in-out hover:bg-red-400 hover:border-red-400 hover:text-white focus:outline-none"
     >
@@ -119,109 +121,115 @@
     </Suspense>
   </section>
 
-  <div
-    v-if="isJoinClassModalActive"
-    class="fixed rounded-xl w-80 bg-white flex flex-col z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-  >
-    <img src="./../assets/logo.svg" alt="larns logo" class="w-24 px-6 pt-6" />
+  <transition name="modal-create">
+    <div
+      v-if="isJoinClassModalActive"
+      class="fixed rounded-xl w-80 bg-white flex flex-col z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+    >
+      <img src="./../assets/logo.svg" alt="larns logo" class="w-24 px-6 pt-6" />
 
-    <h2 class="text-2xl font-bold px-6 pt-6">Join a Classroom</h2>
+      <h2 class="text-2xl font-bold px-6 pt-6">Join a Classroom</h2>
 
-    <form class="mt-6 px-6 pb-3" autocomplete="off">
-      <div class="flex flex-col mb-6">
-        <label for="email" class="text-xs font-bold tracking-wide uppercase">
-          Class code
-        </label>
-        <input
-          type="text"
-          id="email"
-          class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
-        />
+      <form class="mt-6 px-6 pb-3" autocomplete="off">
+        <div class="flex flex-col mb-6">
+          <label for="email" class="text-xs font-bold tracking-wide uppercase">
+            Class code
+          </label>
+          <input
+            v-model="formJoin.join_code"
+            type="text"
+            id="email"
+            class="appearance-none w-full bg-transparent font-medium border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
+          />
+        </div>
+      </form>
+
+      <div
+        class="px-6 py-4 bg-red-300 rounded-bl-xl rounded-br-xl flex justify-end space-x-2"
+      >
+        <button
+          @click="isJoinClassModalActive = false"
+          class="inline-flex items-center self-end bg-red-300 hover:bg-red-400 text-white py-2 px-6 transition duration-100 ease-in border border-red-300 hover:border-red-400 rounded-full focus:outline-none"
+        >
+          <span class="text-sm font-bold">Cancel</span>
+        </button>
+
+        <button
+          @click.prevent="submitJoinClass"
+          class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white py-2 px-6 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
+        >
+          <span class="text-sm font-bold">Join</span>
+        </button>
+      </div>
+    </div>
+  </transition>
+
+  <transition name="modal-create">
+    <form
+      autocomplete="off"
+      @submit.prevent="submitStoreClassroom"
+      v-if="isCreateClassModalActive"
+      class="fixed rounded-xl w-80 bg-white flex flex-col z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+    >
+      <img src="./../assets/logo.svg" alt="larns logo" class="w-24 px-6 pt-6" />
+
+      <h2 class="text-2xl font-bold px-6 pt-6">Create a Classroom</h2>
+
+      <div class="mt-6 px-6 pb-3">
+        <div class="flex flex-col mb-6">
+          <label for="name" class="text-xs font-bold tracking-wide uppercase">
+            Name
+          </label>
+          <input
+            v-model="formCreate.name"
+            type="text"
+            id="name"
+            class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
+          />
+        </div>
+        <div class="flex flex-col mb-6">
+          <label for="grade" class="text-xs font-bold tracking-wide uppercase">
+            Grade
+          </label>
+          <input
+            v-model="formCreate.grade"
+            type="text"
+            id="grade"
+            class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
+          />
+        </div>
+        <div class="flex flex-col mb-6">
+          <label for="major" class="text-xs font-bold tracking-wide uppercase">
+            Major
+          </label>
+          <input
+            v-model="formCreate.major"
+            type="text"
+            id="major"
+            class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
+          />
+        </div>
+      </div>
+
+      <div
+        class="px-6 py-4 bg-red-300 rounded-bl-xl rounded-br-xl flex justify-end space-x-2"
+      >
+        <button
+          @click="isCreateClassModalActive = false"
+          class="inline-flex items-center self-end bg-red-300 hover:bg-red-400 text-white py-2 px-6 transition duration-100 ease-in border border-red-300 hover:border-red-400 rounded-full focus:outline-none"
+        >
+          <span class="text-sm font-bold">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white py-2 px-6 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
+        >
+          <span class="text-sm font-bold">Create</span>
+        </button>
       </div>
     </form>
-
-    <div
-      class="px-6 py-4 bg-red-300 rounded-bl-xl rounded-br-xl flex justify-end space-x-2"
-    >
-      <button
-        @click="isJoinClassModalActive = false"
-        class="inline-flex items-center self-end bg-red-300 hover:bg-red-400 text-white py-2 px-6 transition duration-100 ease-in border border-red-300 hover:border-red-400 rounded-full focus:outline-none"
-      >
-        <span class="text-sm font-bold">Cancel</span>
-      </button>
-
-      <button
-        class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white py-2 px-6 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
-      >
-        <span class="text-sm font-bold">Join</span>
-      </button>
-    </div>
-  </div>
-
-  <form
-    autocomplete="off"
-    @submit.prevent="submitStoreClassroom"
-    v-if="isCreateClassModalActive"
-    class="fixed rounded-xl w-80 bg-white flex flex-col z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-  >
-    <img src="./../assets/logo.svg" alt="larns logo" class="w-24 px-6 pt-6" />
-
-    <h2 class="text-2xl font-bold px-6 pt-6">Create a Classroom</h2>
-
-    <div class="mt-6 px-6 pb-3">
-      <div class="flex flex-col mb-6">
-        <label for="name" class="text-xs font-bold tracking-wide uppercase">
-          Name
-        </label>
-        <input
-          v-model="form.name"
-          type="text"
-          id="name"
-          class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
-        />
-      </div>
-      <div class="flex flex-col mb-6">
-        <label for="grade" class="text-xs font-bold tracking-wide uppercase">
-          Grade
-        </label>
-        <input
-          v-model="form.grade"
-          type="text"
-          id="grade"
-          class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
-        />
-      </div>
-      <div class="flex flex-col mb-6">
-        <label for="major" class="text-xs font-bold tracking-wide uppercase">
-          Major
-        </label>
-        <input
-          v-model="form.major"
-          type="text"
-          id="major"
-          class="appearance-none w-full bg-transparent border-b border-gray-700 px-1 py-2 focus:border-red-400 focus:outline-none"
-        />
-      </div>
-    </div>
-
-    <div
-      class="px-6 py-4 bg-red-300 rounded-bl-xl rounded-br-xl flex justify-end space-x-2"
-    >
-      <button
-        @click="isCreateClassModalActive = false"
-        class="inline-flex items-center self-end bg-red-300 hover:bg-red-400 text-white py-2 px-6 transition duration-100 ease-in border border-red-300 hover:border-red-400 rounded-full focus:outline-none"
-      >
-        <span class="text-sm font-bold">Cancel</span>
-      </button>
-
-      <button
-        type="submit"
-        class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white py-2 px-6 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
-      >
-        <span class="text-sm font-bold">Create</span>
-      </button>
-    </div>
-  </form>
+  </transition>
 
   <div
     @click="toggleDarkBackground"
@@ -247,9 +255,10 @@ export default {
   },
   setup() {
     const { authUser } = useAuth();
-    const { store } = useClassrooms();
+    const { store, joinClass } = useClassrooms();
 
-    const form = reactive({ name: null, grade: null, major: null });
+    const formCreate = reactive({ name: null, grade: null, major: null });
+    const formJoin = reactive({ join_code: null });
     const user = ref(null);
     const isJoinClassModalActive = ref(false);
     const isCreateClassModalActive = ref(false);
@@ -264,19 +273,53 @@ export default {
     }
 
     async function submitStoreClassroom() {
-      await store(form);
+      await store(formCreate);
 
       isCreateClassModalActive.value = false;
+      
+      formCreate.name = null;
+      formCreate.grade = null;
+      formCreate.major = null;
+    }
+
+    async function submitJoinClass() {
+      await joinClass(formJoin);
+
+      isJoinClassModalActive.value = false;
+
+      formJoin.join_code = null;
     }
 
     return {
-      form,
+      formCreate,
+      formJoin,
       toggleDarkBackground,
       isJoinClassModalActive,
       isCreateClassModalActive,
       user,
       submitStoreClassroom,
+      submitJoinClass
     };
   },
 };
 </script>
+
+<style>
+.modal-create-enter-active {
+  animation: bounce-in 0.5s;
+}
+/* .modal-create-leave-active {
+  animation: bounce-in 0.5s reverse;
+} */
+@keyframes bounce-in {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.25);
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+</style>
