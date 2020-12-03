@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col">
+  <div class="min-h-screen flex flex-col overflow-hidden">
     <svg
       class="w-full absolute"
       viewBox="0 0 1366 592"
@@ -30,7 +30,9 @@
     <section
       class="flex-1 flex items-center justify-center sm:justify-between px-10 sm:px-20 md:px-40 z-20"
     >
-      <div class="z-30 pb-32 sm:pb-24 md:pb-0">
+      <div
+        class="z-30 pb-32 sm:pb-24 md:pb-0 animate__animated animate__backInDown"
+      >
         <img
           src="./../assets/logo.svg"
           alt="larns logo"
@@ -78,7 +80,7 @@
       </div>
 
       <svg
-        class="w-72 sm:w-96 lg:w-128 absolute bottom-24 sm:bottom-20 right-10 md:static z-0"
+        class="w-72 sm:w-96 lg:w-128 absolute bottom-24 sm:bottom-20 right-10 md:static z-0 animate__animated animate__fadeInRight animate__delay-1s"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 911.60164 451.38424"
       >
