@@ -148,7 +148,7 @@
         class="px-6 py-4 bg-red-300 rounded-bl-xl rounded-br-xl flex justify-end space-x-2"
       >
         <button
-          @click="isJoinClassModalActive = false"
+          @click.prevent="isJoinClassModalActive = false"
           class="inline-flex items-center self-end bg-red-300 hover:bg-red-400 text-white py-2 px-6 transition duration-100 ease-in border border-red-300 hover:border-red-400 rounded-full focus:outline-none"
         >
           <span class="text-sm font-bold">Cancel</span>
@@ -158,6 +158,8 @@
           @click.prevent="submitJoinClass"
           class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white py-2 px-6 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
         >
+          <CircleLoading v-if="formJoin.isSubmitClicked" />
+
           <span class="text-sm font-bold">Join</span>
         </button>
       </div>
@@ -215,7 +217,7 @@
         class="px-6 py-4 bg-red-300 rounded-bl-xl rounded-br-xl flex justify-end space-x-2"
       >
         <button
-          @click="isCreateClassModalActive = false"
+          @click.prevent="isCreateClassModalActive = false"
           class="inline-flex items-center self-end bg-red-300 hover:bg-red-400 text-white py-2 px-6 transition duration-100 ease-in border border-red-300 hover:border-red-400 rounded-full focus:outline-none"
         >
           <span class="text-sm font-bold">Cancel</span>
@@ -225,6 +227,8 @@
           type="submit"
           class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white py-2 px-6 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
         >
+          <CircleLoading v-if="formCreate.isSubmitClicked" />
+
           <span class="text-sm font-bold">Create</span>
         </button>
       </div>
@@ -243,6 +247,7 @@ import { defineAsyncComponent, onMounted, reactive, ref } from "vue";
 import Nav from "./../components/Nav";
 import useAuth from "../modules/auth";
 import useClassrooms from "../modules/classrooms";
+import CircleLoading from "../components/CircleLoading.vue";
 
 const ClassroomsList = defineAsyncComponent(() =>
   import("./../components/ClassroomsList")
@@ -252,14 +257,20 @@ export default {
   components: {
     Nav,
     ClassroomsList,
+    CircleLoading,
   },
   setup() {
     const { authUser } = useAuth();
-    const { store, joinClass } = useClassrooms();
+    const { store, joinClass, errorStore } = useClassrooms();
 
-    const formCreate = reactive({ name: null, grade: null, major: null });
-    const formJoin = reactive({ join_code: null });
     const user = ref(null);
+    const formCreate = reactive({
+      name: null,
+      grade: null,
+      major: null,
+      isSubmitClicked: false,
+    });
+    const formJoin = reactive({ join_code: null, isSubmitClicked: false });
     const isJoinClassModalActive = ref(false);
     const isCreateClassModalActive = ref(false);
 
@@ -273,21 +284,33 @@ export default {
     }
 
     async function submitStoreClassroom() {
+      formCreate.isSubmitClicked = true;
+
       await store(formCreate);
 
-      isCreateClassModalActive.value = false;
-      
-      formCreate.name = null;
-      formCreate.grade = null;
-      formCreate.major = null;
+      if (errorStore.value === 422) {
+        formCreate.name = null;
+        formCreate.grade = null;
+        formCreate.major = null;
+
+        isCreateClassModalActive.value = true;
+      } else {
+        isCreateClassModalActive.value = false;
+      }
+
+      formCreate.isSubmitClicked = false;
     }
 
     async function submitJoinClass() {
+      formJoin.isSubmitClicked = true;
+
       await joinClass(formJoin);
 
       isJoinClassModalActive.value = false;
 
       formJoin.join_code = null;
+
+      formJoin.isSubmitClicked = false;
     }
 
     return {
@@ -298,7 +321,7 @@ export default {
       isCreateClassModalActive,
       user,
       submitStoreClassroom,
-      submitJoinClass
+      submitJoinClass,
     };
   },
 };
