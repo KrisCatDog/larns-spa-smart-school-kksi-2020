@@ -31,7 +31,7 @@
     <section
       class="flex-1 flex items-center justify-between z-20 px-14 sm:px-32"
     >
-      <div class="flex-1">
+      <div class="flex-1 animate__animated animate__fadeInLeft">
         <img
           src="./../assets/logo.svg"
           alt="larns logo"
@@ -39,7 +39,7 @@
         />
 
         <svg
-          class="w-72 sm:w-96 lg:w-128 absolute bottom-16 right-10 md:static z-0"
+          class="hidden w-72 sm:w-96 lg:w-128 md:inline-block z-0"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 911.60164 451.38424"
         >
@@ -179,7 +179,7 @@
       </div>
 
       <form
-        class="w-full sm:w-96 2xl:w-2/5 flex flex-col z-20 pb-32 sm:pb-20 md:pb-0"
+        class="w-full sm:w-96 2xl:w-2/5 flex flex-col z-20 animate__animated animate__backInDown animate__delay-1s"
         autocomplete="off"
         @submit.prevent="submit"
       >
