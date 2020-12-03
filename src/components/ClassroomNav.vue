@@ -77,7 +77,7 @@
       </router-link>
 
       <router-link
-        :to="{ name: 'Exams' }"
+        :to="{ name: 'Discussions' }"
         class="text-black-300 font-semibold px-3 flex items-center"
       >
         <svg
@@ -86,11 +86,11 @@
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M7 13h10v1h-10v-1zm15-11v22h-20v-22h3c1.229 0 2.18-1.084 3-2h8c.82.916 1.771 2 3 2h3zm-11 1c0 .552.448 1 1 1s1-.448 1-1-.448-1-1-1-1 .448-1 1zm9 15.135c-1.073 1.355-2.448 2.763-3.824 3.865h3.824v-3.865zm0-14.135h-4l-2 2h-3.898l-2.102-2h-4v18h7.362c4.156 0 2.638-6 2.638-6s6 1.65 6-2.457v-9.543zm-13 12h5v-1h-5v1zm0-4h10v-1h-10v1zm0-2h10v-1h-10v1z"
+            d="M24 20h-3v4l-5.333-4h-7.667v-4h2v2h6.333l2.667 2v-2h3v-8.001h-2v-2h4v12.001zm-6-6h-9.667l-5.333 4v-4h-3v-14.001h18v14.001zm-9-4.084h-5v1.084h5v-1.084zm5-2.916h-10v1h10v-1zm0-3h-10v1h10v-1z"
           />
         </svg>
 
-        <span class="inline-block pb-1 ml-2 text-sm">Exams</span>
+        <span class="inline-block pb-1 ml-2 text-sm">Discussions</span>
       </router-link>
     </div>
 
@@ -211,7 +211,7 @@
     </router-link>
 
     <router-link
-      :to="{ name: 'Exams' }"
+      :to="{ name: 'Discussions' }"
       class="mr-4 text-black-300 font-semibold flex flex-col items-center"
     >
       <svg
@@ -222,11 +222,13 @@
         clip-rule="evenodd"
       >
         <path
-          d="M7 13h10v1h-10v-1zm15-11v22h-20v-22h3c1.229 0 2.18-1.084 3-2h8c.82.916 1.771 2 3 2h3zm-11 1c0 .552.448 1 1 1s1-.448 1-1-.448-1-1-1-1 .448-1 1zm9 15.135c-1.073 1.355-2.448 2.763-3.824 3.865h3.824v-3.865zm0-14.135h-4l-2 2h-3.898l-2.102-2h-4v18h7.362c4.156 0 2.638-6 2.638-6s6 1.65 6-2.457v-9.543zm-13 12h5v-1h-5v1zm0-4h10v-1h-10v1zm0-2h10v-1h-10v1z"
+          d="M24 20h-3v4l-5.333-4h-7.667v-4h2v2h6.333l2.667 2v-2h3v-8.001h-2v-2h4v12.001zm-6-6h-9.667l-5.333 4v-4h-3v-14.001h18v14.001zm-9-4.084h-5v1.084h5v-1.084zm5-2.916h-10v1h10v-1zm0-3h-10v1h10v-1z"
         />
       </svg>
 
-      <span class="hidden sm:inline-block text-xs font-regular">Exams</span>
+      <span class="hidden sm:inline-block text-xs font-regular"
+        >Discussions</span
+      >
     </router-link>
   </nav>
 </template>
