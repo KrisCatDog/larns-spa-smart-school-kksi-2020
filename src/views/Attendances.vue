@@ -48,77 +48,113 @@
       </Suspense>
 
       <div class="col-span-6">
-        <form
-          @submit.prevent="submitStoreAttendance"
-          class="bg-white rounded-md shadow-sm px-8 py-6 mb-5 flex flex-col md:flex-row md:items-center justify-between"
+        <div
+          v-if="user && user.role.name == 'Teacher'"
+          class="bg-white rounded-md shadow-sm px-8 py-5 mb-5 flex flex-col overflow-hidden"
         >
-          <div
-            class="flex items-center justify-around sm:justify-between -ml-5"
+          <transition
+            enter-active-class="animate__animated animate__fadeInDown"
           >
-            <div
-              class="ml-5 flex flex-col items-center sm:flex-row space-y-2 sm:space-y-0"
-            >
-              <span class="font-semibold">From</span>
-              <input
-                v-model="form.started_at"
-                type="time"
-                class="appearance-none border border-gray-600 px-4 py-1 rounded-md ml-3 focus:outline-none focus:ring focus:ring-red-400 focus:ring-opacity-50 focus:border-gray-100"
-              />
-            </div>
-
-            <div
-              class="ml-5 flex flex-col items-center sm:flex-row space-y-2 sm:space-y-0"
-            >
-              <span class="font-semibold">Until</span>
-              <input
-                v-model="form.ended_at"
-                type="time"
-                class="appearance-none border border-gray-600 px-4 py-1 rounded-md ml-3 focus:outline-none focus:ring focus:ring-red-400 focus:ring-opacity-50 focus:border-gray-100"
-              />
-            </div>
-          </div>
-
-          <div class="flex self-end items-center mt-8 md:mt-0 space-x-3">
             <button
-              @click.prevent="resetForm"
-              class="flex items-center border border-gray-800 px-4 py-1 rounded-full transition duration-100 ease-in-out hover:bg-yellow-400 hover:border-yellow-400 hover:text-white focus:outline-none"
+              v-if="!isStoreViewShowed"
+              @click.prevent="isStoreViewShowed = !isStoreViewShowed"
+              class="flex items-center space-x-3 bg-gray-100 border border-gray-400 text-gray-700 px-4 py-3 rounded focus:outline-none"
             >
               <svg
-                class="fill-current w-4 h-4 stroke-current stroke-1"
+                class="fill-current w-4 h-4 stroke-current stroke-1 text-gray-500"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
                 fill-rule="evenodd"
                 clip-rule="evenodd"
               >
-                <path
-                  d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"
-                />
+                <path d="M11 11v-11h1v11h11v1h-11v11h-1v-11h-11v-1h11z" />
               </svg>
 
-              <span class="inline-block ml-2 text-sm md:text-base">Cancel</span>
+              <span class="font-medium text-sm">Create Attendance</span>
             </button>
+          </transition>
 
-            <button
-              type="submit"
-              class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 rounded-full transition duration-100 ease-in-out transform hover:bg-red-600 hover:border-red-600 focus:translate-y-1 hover:text-white focus:outline-none"
+          <transition
+            enter-active-class="animate__animated animate__fadeInDown"
+          >
+            <form
+              v-if="isStoreViewShowed"
+              @submit.prevent="submitStoreAttendance"
+              class="bg-white rounded-md shadow-sm px-8 py-4 flex flex-col md:flex-row md:items-center justify-between"
             >
-              <CircleLoading v-if="form.isSubmitClicked" />
-
-              <svg
-                class="fill-current w-4 h-4"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                v-if="!form.isSubmitClicked"
+              <div
+                class="flex items-center justify-around sm:justify-between -ml-5"
               >
-                <path
-                  d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z"
-                />
-              </svg>
+                <div
+                  class="ml-5 flex flex-col items-center sm:flex-row space-y-2 sm:space-y-0"
+                >
+                  <span class="font-semibold">From</span>
+                  <input
+                    v-model="form.started_at"
+                    type="time"
+                    class="appearance-none border border-gray-600 px-4 py-1 rounded-md ml-3 focus:outline-none focus:ring focus:ring-red-400 focus:ring-opacity-50 focus:border-gray-100"
+                  />
+                </div>
 
-              <span class="inline-block ml-2 text-sm md:text-base">Post!</span>
-            </button>
-          </div>
-        </form>
+                <div
+                  class="ml-5 flex flex-col items-center sm:flex-row space-y-2 sm:space-y-0"
+                >
+                  <span class="font-semibold">Until</span>
+                  <input
+                    v-model="form.ended_at"
+                    type="time"
+                    class="appearance-none border border-gray-600 px-4 py-1 rounded-md ml-3 focus:outline-none focus:ring focus:ring-red-400 focus:ring-opacity-50 focus:border-gray-100"
+                  />
+                </div>
+              </div>
+
+              <div class="flex self-end items-center mt-8 md:mt-0 space-x-3">
+                <button
+                  @click.prevent="isStoreViewShowed = !isStoreViewShowed"
+                  class="flex items-center border border-gray-800 px-4 py-1 rounded-full transition duration-100 ease-in-out hover:bg-yellow-400 hover:border-yellow-400 hover:text-white focus:outline-none"
+                >
+                  <svg
+                    class="fill-current w-4 h-4 stroke-current stroke-1"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                  >
+                    <path
+                      d="M12 11.293l10.293-10.293.707.707-10.293 10.293 10.293 10.293-.707.707-10.293-10.293-10.293 10.293-.707-.707 10.293-10.293-10.293-10.293.707-.707 10.293 10.293z"
+                    />
+                  </svg>
+
+                  <span class="inline-block ml-2 text-sm md:text-base"
+                    >Cancel</span
+                  >
+                </button>
+
+                <button
+                  type="submit"
+                  class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 rounded-full transition duration-100 ease-in-out transform hover:bg-red-600 hover:border-red-600 focus:translate-y-1 hover:text-white focus:outline-none"
+                >
+                  <CircleLoading v-if="form.isSubmitClicked" />
+
+                  <svg
+                    class="fill-current w-4 h-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    v-if="!form.isSubmitClicked"
+                  >
+                    <path
+                      d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z"
+                    />
+                  </svg>
+
+                  <span class="inline-block ml-2 text-sm md:text-base"
+                    >Post!</span
+                  >
+                </button>
+              </div>
+            </form>
+          </transition>
+        </div>
 
         <Suspense>
           <template #default> <AttendancesList /></template>
@@ -147,11 +183,12 @@
 </template>
 
 <script>
-import { defineAsyncComponent, reactive } from "vue";
+import { defineAsyncComponent, onMounted, reactive, ref } from "vue";
 import { useRoute } from "vue-router";
 import ClassroomNav from "./../components/ClassroomNav";
 import CircleLoading from "./../components/CircleLoading";
 import useAttendances from "../modules/attendances";
+import useAuth from "../modules/auth";
 
 const ClassroomHeader = defineAsyncComponent(() =>
   import("./../components/ClassroomHeader")
@@ -179,8 +216,16 @@ export default {
       ended_at: null,
       isSubmitClicked: false,
     });
+    const isStoreViewShowed = ref(false);
     const route = useRoute();
     const { store } = useAttendances();
+
+    const user = ref(null);
+    const { authUser } = useAuth();
+
+    onMounted(async () => {
+      user.value = await authUser();
+    });
 
     async function submitStoreAttendance() {
       form.isSubmitClicked = true;
@@ -201,6 +246,8 @@ export default {
       form,
       resetForm,
       submitStoreAttendance,
+      isStoreViewShowed,
+      user,
     };
   },
 };
