@@ -16,7 +16,7 @@
           <path :d="svgPath" />
         </svg>
 
-        <span class="inline-block ml-2">{{ classroom.name }}</span>
+        <span class="inline-block ml-4">{{ classroom.name }}</span>
       </h1>
 
       <h1
@@ -30,6 +30,13 @@
       >
         {{ classroom.major }}
       </h1>
+    </div>
+
+    <div
+      v-if="user && user.role.name == 'Teacher'"
+      class="bg-red-300 px-4 py-1 text-white rounded-full font-medium select-all"
+    >
+      {{ classroom.join_code }}
     </div>
 
     <router-link
@@ -54,16 +61,24 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
+import useAuth from "../modules/auth";
 
 export default {
   props: ["svgPath"],
   name: "ClassroomHeader",
   async setup() {
     const route = useRoute();
+    const { authUser } = useAuth();
     const classroom = ref({});
+
+    const user = ref(null);
+
+    onMounted(async () => {
+      user.value = await authUser();
+    });
 
     const response = await axios.get(
       `/classrooms/${route.params.classroomId}`,
@@ -79,6 +94,7 @@ export default {
 
     return {
       classroom,
+      user,
     };
   },
 };
