@@ -52,7 +52,10 @@
         <span class="inline-block ml-2">Detail</span>
       </button>
 
-      <button v-if="user.role.name == 'Teacher'">
+      <button
+        v-if="user.role.name == 'Teacher'"
+        class="self-center ring-red-400 ring-opacity-50 focus:outline-none focus:ring focus:ring-offset-4 rounded"
+      >
         <svg
           class="fill-current w-4 h-4"
           viewBox="0 0 24 24"
