@@ -58,25 +58,56 @@
         </span>
       </div>
 
-      <button
-        v-if="user.role.name == 'Teacher'"
-        class="ring-red-400 ring-opacity-50 focus:outline-none focus:ring focus:ring-offset-4 rounded"
-      >
-        <svg
-          class="fill-current w-4 h-4"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+      <div class="relative">
+        <button
+          @click.prevent="
+            attendance.isSettingModalActive = !attendance.isSettingModalActive
+          "
+          v-if="user.role.name == 'Teacher'"
+          class="ring-red-400 ring-opacity-50 focus:outline-none focus:ring focus:ring-offset-4 rounded"
         >
-          <path
-            d="M12 18c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3zm0-9c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3zm0-9c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3z"
-          />
-        </svg>
-      </button>
+          <svg
+            class="fill-current w-4 h-4"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 18c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3zm0-9c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3zm0-9c1.657 0 3 1.343 3 3s-1.343 3-3 3-3-1.343-3-3 1.343-3 3-3z"
+            />
+          </svg>
+        </button>
+
+        <div
+          v-if="attendance.isSettingModalActive"
+          class="absolute top-6 right-0 w-32 bg-white shadow-md border rounded-md py-1 z-50"
+        >
+          <button
+            @click="submitLogout"
+            class="w-full text-black-300 font-medium px-4 py-2 flex items-center hover:bg-gray-100 focus:outline-none"
+          >
+            <div class="inline-block text-sm">Show Data</div>
+          </button>
+
+          <button
+            @click="submitLogout"
+            class="w-full text-black-300 font-medium px-4 py-2 flex items-center hover:bg-gray-100 focus:outline-none"
+          >
+            <div class="inline-block text-sm">Edit</div>
+          </button>
+
+          <button
+            @click="submitLogout"
+            class="w-full text-black-300 font-medium px-4 py-2 flex items-center hover:bg-gray-100 focus:outline-none"
+          >
+            <div class="inline-block text-sm">Delete</div>
+          </button>
+        </div>
+      </div>
     </div>
 
     <div
       class="flex items-center justify-end"
-      v-if="!attendance.attendance_responds[0]"
+      v-if="!attendance.attendance_responds[0] && user.role.name == 'Student'"
     >
       <button
         @click.prevent="submitAttendance(attendance.id, 'attend')"
