@@ -7,6 +7,8 @@ const state = reactive({
 
 export default function useAttendances() {
   const load = async (id) => {
+    state.attendances = [];
+
     try {
       const response = await axios.get(`/classrooms/${id}/attendances`, {
         headers: {
@@ -15,7 +17,11 @@ export default function useAttendances() {
         },
       });
 
-      state.attendances = response.data.data;
+      response.data.data.forEach((item) => {
+        item.isSettingModalActive = false;
+
+        state.attendances.push(item);
+      });
     } catch (e) {
       console.log(e.response);
     }
