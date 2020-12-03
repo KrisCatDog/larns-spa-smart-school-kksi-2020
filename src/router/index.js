@@ -105,6 +105,15 @@ const routes = [
       middleware: [auth],
     },
   },
+  {
+    path: "/classrooms/:classroomId/discussions",
+    name: "Discussions",
+    component: () => import("../views/Discussions.vue"),
+    meta: {
+      title: "Discussions - Classroom",
+      middleware: [auth],
+    },
+  },
 ];
 
 const router = createRouter({
