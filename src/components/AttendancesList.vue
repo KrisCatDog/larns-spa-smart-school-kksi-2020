@@ -8,7 +8,7 @@
   <div
     v-for="attendance in attendances"
     :key="attendance.id"
-    class="flex justify-between mb-3"
+    class="flex flex-col mb-3 justify-between"
   >
     <div
       class="flex-1 bg-white rounded-lg shadow-sm px-4 sm:px-8 py-3 sm:py-6 flex items-center justify-between"
@@ -53,7 +53,7 @@
 
       <div
         class="font-medium text-xs sm:text-sm text-right"
-        v-if="attendance.attendance_responds[0] && user.role.name == 'Student'"
+        v-if="checkIfUserHasFillAttendance(attendance)"
       >
         <span
           class="capitalize px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
@@ -161,16 +161,16 @@
 
     <div
       class="flex items-center justify-end"
-      v-if="!attendance.attendance_responds[0] && user.role.name == 'Student'"
+      v-if="checkIfUserNotFillAttendance(attendance)"
     >
       <button
         @click.prevent="submitAttendance(attendance.id, 'attend')"
         class="flex items-center border bg-green-500 border-green-500 text-white px-4 py-1 rounded-bl-lg hover:bg-green-600 hover:border-green-600 hover:text-white focus:outline-none"
       >
-        <CircleLoading v-if="isSubmitted" />
+        <CircleLoading v-if="isAttendSubmitted" />
 
         <svg
-          v-if="!isSubmitted"
+          v-if="!isAttendSubmitted"
           class="fill-current w-4 h-4"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -186,10 +186,10 @@
         @click.prevent="submitAttendance(attendance.id, 'not attend')"
         class="flex items-center border bg-red-500 border-red-500 text-white px-4 py-1 rounded-br-lg hover:bg-red-600 hover:border-red-600 hover:text-white focus:outline-none"
       >
-        <CircleLoading v-if="isSubmitted" />
+        <CircleLoading v-if="isCantSubmitted" />
 
         <svg
-          v-if="!isSubmitted"
+          v-if="!isCantSubmitted"
           class="fill-current w-4 h-4 stroke-current stroke-1"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -413,7 +413,8 @@ export default {
       update,
     } = useAttendances();
 
-    const isSubmitted = ref(false);
+    const isAttendSubmitted = ref(false);
+    const isCantSubmitted = ref(false);
     const isEditButtonClicked = ref(false);
     const isDeleteButtonClicked = ref(false);
     const user = ref(null);
@@ -440,11 +441,19 @@ export default {
     }
 
     async function submitAttendance(id, status) {
-      isSubmitted.value = true;
+      if (status == "attend") {
+        isAttendSubmitted.value = true;
+      } else {
+        isCantSubmitted.value = true;
+      }
 
       await storeRespond(id, { status });
 
-      isSubmitted.value = false;
+      if (status == "attend") {
+        isAttendSubmitted.value = false;
+      } else {
+        isCantSubmitted.value = false;
+      }
     }
 
     async function submitDeleteAttendance(id) {
@@ -463,17 +472,48 @@ export default {
       isEditButtonClicked.value = false;
     }
 
+    function checkIfUserHasFillAttendance(attendance) {
+      const index = attendance.attendance_responds.findIndex(
+        (attendance_respond) => attendance_respond.user.id === user.value.id
+      );
+
+      if (index == -1 && user.value.role.name == "Student") {
+        return false;
+      } else if (user.value.role.name == "Teacher") {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    function checkIfUserNotFillAttendance(attendance) {
+      const index = attendance.attendance_responds.findIndex(
+        (attendance_respond) => attendance_respond.user.id === user.value.id
+      );
+
+      if (index == -1 && user.value.role.name == "Student") {
+        return true;
+      } else if (user.value.role.name == "Teacher") {
+        return false;
+      } else {
+        return false;
+      }
+    }
+
     return {
       user,
       attendances,
       submitAttendance,
       statusLabelStyle,
-      isSubmitted,
+      isAttendSubmitted,
+      isCantSubmitted,
       setAttendanceStatus,
       submitDeleteAttendance,
       isEditButtonClicked,
       isDeleteButtonClicked,
       submitEditAttendance,
+      checkIfUserHasFillAttendance,
+      checkIfUserNotFillAttendance,
     };
   },
 };
