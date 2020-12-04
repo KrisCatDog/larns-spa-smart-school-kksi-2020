@@ -182,6 +182,87 @@
       </div>
     </section>
   </div>
+
+  <transition
+    id="dark-bg"
+    enter-active-class="animate__animated animate__fadeIn animate__faster"
+    leave-active-class="animate__animated animate__fadeOut animate__faster"
+  >
+    <div
+      class="fixed inset-0 transition-opacity"
+      aria-hidden="true"
+      v-if="isSuccessModalShowed"
+    >
+      <div class="absolute inset-0 bg-gray-500 opacity-50"></div>
+    </div>
+  </transition>
+
+  <transition
+    enter-active-class="animate__animated animate__tada"
+    leave-active-class="animate__animated animate__zoomOut"
+  >
+    <div class="fixed z-10 inset-0 overflow-y-auto" v-if="isSuccessModalShowed">
+      <div
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+          >&#8203;</span
+        >
+
+        <div
+          class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-1/3"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="modal-headline"
+        >
+          <div class="bg-gray-50 py-5">
+            <img
+              src="./../assets/logo.svg"
+              alt="larns logo"
+              class="w-24 px-6"
+            />
+          </div>
+
+          <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div class="flex items-center">
+              <div
+                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10"
+              >
+                <svg
+                  class="fill-current h-5 w-5 text-green-600"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 12.194v9.806h-20v-20h18.272l-1.951 2h-14.321v16h16v-5.768l2-2.038zm.904-10.027l-9.404 9.639-4.405-4.176-3.095 3.097 7.5 7.273 12.5-12.737-3.096-3.096z"
+                  />
+                </svg>
+              </div>
+              <div class="text-center sm:mt-0 sm:ml-4 sm:text-left">
+                <h3
+                  class="text-lg leading-6 font-medium text-gray-900"
+                  id="modal-headline"
+                >
+                  Attendance successfully posted!
+                </h3>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <button
+              @click.prevent="isSuccessModalShowed = !isSuccessModalShowed"
+              type="submit"
+              class="w-full inline-flex justify-center items-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-red-400 text-base font-medium text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+            >
+              Okay!
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -219,6 +300,7 @@ export default {
       isSubmitClicked: false,
     });
     const isStoreViewShowed = ref(false);
+    const isSuccessModalShowed = ref(false);
     const route = useRoute();
     const { store } = useAttendances();
 
@@ -237,6 +319,16 @@ export default {
       form.isSubmitClicked = false;
 
       resetForm();
+
+      showModal();
+    }
+
+    function showModal() {
+      isSuccessModalShowed.value = true;
+
+      setTimeout(function () {
+        isSuccessModalShowed.value = false;
+      }, 2000);
     }
 
     function resetForm() {
@@ -250,6 +342,8 @@ export default {
       submitStoreAttendance,
       isStoreViewShowed,
       user,
+      isSuccessModalShowed,
+      showModal,
     };
   },
 };
