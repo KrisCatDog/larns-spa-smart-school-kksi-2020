@@ -19,6 +19,7 @@ export default function useClassrooms() {
         item.isSettingModalActive = false;
         item.isDeleteModalActive = false;
         item.isEditModalActive = false;
+        item.isLeaveClassModalActive = false;
 
         state.classrooms.push(item);
       });
@@ -97,6 +98,23 @@ export default function useClassrooms() {
     }
   };
 
+  const leaveClass = async (uuid) => {
+    try {
+      await axios.post(`/classrooms/${uuid}/leave-class`, null, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+
+      state.classrooms = state.classrooms.filter(
+        (classroom) => classroom.uuid != uuid
+      );
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
   return {
     ...toRefs(state),
     load,
@@ -104,5 +122,6 @@ export default function useClassrooms() {
     joinClass,
     destroy,
     update,
+    leaveClass,
   };
 }
