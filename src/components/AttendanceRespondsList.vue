@@ -75,6 +75,20 @@
                   </th>
                 </tr>
               </thead>
+              <tbody
+                class="bg-white divide-y divide-gray-200"
+                v-if="!attendance.attendance_responds[0]"
+              >
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="text-sm font-medium text-red-500">
+                        Nobody attend the class!
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
               <tbody class="bg-white divide-y divide-gray-200">
                 <tr
                   v-for="attendanceRespond in attendance.attendance_responds"
@@ -139,11 +153,11 @@ export default {
     );
 
     function setAttendanceStatusColor(status) {
-      if (status == "attend") {
-        return "bg-green-100 text-green-800";
-      } else {
-        return "bg-red-100 text-red-800";
-      }
+      return {
+        "bg-green-100 text-green-800": status == "attend",
+        "bg-yellow-100 text-yellow-800": status == "not attend",
+        "bg-red-100 text-red-800": status == "late",
+      };
     }
 
     return {
