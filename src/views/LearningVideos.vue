@@ -178,10 +178,12 @@
 
           <template #fallback>
             <div
-              class="border bg-white shadow-sm rounded-md py-5 px-8 w-full mx-auto"
+              v-for="index in 6"
+              :key="index"
+              class="border bg-white shadow-sm rounded-md py-5 px-8 mb-4 w-full mx-auto"
             >
               <div class="animate-pulse">
-                <div class="flex space-x-4">
+                <div class="flex items-center space-x-4">
                   <div class="rounded-full bg-red-400 h-10 w-10"></div>
                   <div class="flex-1 space-y-3 py-1">
                     <div class="h-4 bg-red-400 rounded w-4/6"></div>

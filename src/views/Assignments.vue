@@ -144,7 +144,7 @@
 
           <template #fallback>
             <div
-              v-for="index in 4"
+              v-for="index in 6"
               :key="index"
               class="border bg-white shadow-sm rounded-md py-5 px-8 mb-4 w-full mx-auto"
             >
