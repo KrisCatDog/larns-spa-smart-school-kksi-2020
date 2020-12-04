@@ -1,4 +1,10 @@
 <template>
+  <EmptyAlert
+    message="There's no video here!"
+    messageBold="Go upload one!"
+    v-if="!classVideos[0]"
+  />
+
   <div
     v-for="classVideo in classVideos"
     :key="classVideo.id"
@@ -72,8 +78,10 @@
 <script>
 import { useRoute } from "vue-router";
 import useClassVideos from "../modules/class-videos";
+import EmptyAlert from "./EmptyAlert.vue";
 
 export default {
+  components: { EmptyAlert },
   name: "LearningVideosList",
   async setup() {
     const route = useRoute();
