@@ -8,12 +8,12 @@
   <div
     v-for="attendance in attendances"
     :key="attendance.id"
-    class="flex flex-col mb-3"
+    class="flex justify-between mb-3"
   >
     <div
-      class="bg-white rounded-lg shadow-sm px-4 sm:px-8 py-3 sm:py-6 flex items-center justify-between"
+      class="flex-1 bg-white rounded-lg shadow-sm px-4 sm:px-8 py-3 sm:py-6 flex items-center justify-between"
     >
-      <div class="sm:w-1/3 flex items-center">
+      <div class="flex items-center">
         <div class="p-2 rounded-full bg-gradient-to-br from-red-500 to-red-300">
           <svg
             class="fill-current w-5 h-5 text-white"
@@ -55,9 +55,8 @@
         class="font-medium text-xs sm:text-sm text-right"
         v-if="attendance.attendance_responds[0] && user.role.name == 'Student'"
       >
-        <span class="hidden sm:inline-block pr-2">Your status:</span>
         <span
-          class="capitalize"
+          class="capitalize px-2 inline-flex text-xs leading-5 font-semibold rounded-full"
           :class="
             statusLabelStyle(
               setAttendanceStatus(attendance.attendance_responds).status
@@ -68,12 +67,11 @@
         </span>
       </div>
 
-      <div class="relative">
+      <div class="relative" v-if="user.role.name == 'Teacher'">
         <button
           @click.prevent="
             attendance.isSettingModalActive = !attendance.isSettingModalActive
           "
-          v-if="user.role.name == 'Teacher'"
           class="ring-red-400 ring-opacity-50 focus:outline-none focus:ring focus:ring-offset-4 rounded"
         >
           <svg
@@ -427,8 +425,9 @@ export default {
 
     function statusLabelStyle(status) {
       return {
-        "text-green-500": status == "attend",
-        "text-red-500": status == "not attend",
+        "bg-green-100 text-green-800": status == "attend",
+        "bg-yellow-100 text-yellow-800": status == "not attend",
+        "bg-red-100 text-red-800": status == "late",
       };
     }
 
