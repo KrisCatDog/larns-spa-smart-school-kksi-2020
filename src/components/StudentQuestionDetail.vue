@@ -85,7 +85,7 @@
       </button>
     </div>
 
-    <div class="py-4 pt-2">
+    <div class="pt-3">
       <div
         class="flex flex-col space-y-3 border-t py-4 px-6"
         :key="questionAnswer.id"
