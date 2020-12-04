@@ -64,6 +64,44 @@ export default function useQuestions() {
     }
   };
 
+  const update = async (classroomId, id, data) => {
+    try {
+      const response = await axios.put(
+        `/classrooms/${classroomId}/questions/${id}`,
+        data,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      const index = state.questions.findIndex((question) => question.id === id);
+
+      state.questions[index] = response.data.data;
+    } catch (e) {
+      state.errorStore = e.response.status;
+    }
+  };
+
+  const destroy = async (classroomId, id) => {
+    try {
+      await axios.delete(`/classrooms/${classroomId}/questions/${id}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+
+      state.questions = state.questions.filter(
+        (question) => question.id !== id
+      );
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
   const storeAnswer = async (questionId, data) => {
     try {
       const response = await axios.post(
@@ -84,11 +122,10 @@ export default function useQuestions() {
       });
 
       state.questions[index].question_answers.push(response.data.data);
-      console.log(state.questions[index].question_answers);
     } catch (e) {
       console.log(e.response);
     }
   };
 
-  return { ...toRefs(state), load, store, show, storeAnswer };
+  return { ...toRefs(state), load, store, show, update, destroy, storeAnswer };
 }

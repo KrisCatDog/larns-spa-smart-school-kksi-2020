@@ -19,6 +19,8 @@ export default function useAssignments() {
 
       response.data.data.forEach((item) => {
         item.isSettingModalActive = false;
+        item.isEditModalActive = false;
+        item.isDeleteModalActive = false;
 
         state.assignments.push(item);
       });
@@ -64,5 +66,45 @@ export default function useAssignments() {
     }
   };
 
-  return { ...toRefs(state), load, store, show };
+  const update = async (classroomId, id, data) => {
+    try {
+      const response = await axios.put(
+        `/classrooms/${classroomId}/assignments/${id}`,
+        data,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      const index = state.assignments.findIndex(
+        (assignment) => assignment.id === id
+      );
+
+      state.assignments[index] = response.data.data;
+    } catch (e) {
+      state.errorStore = e.response.status;
+    }
+  };
+
+  const destroy = async (classroomId, id) => {
+    try {
+      await axios.delete(`/classrooms/${classroomId}/assignments/${id}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+
+      state.assignments = state.assignments.filter(
+        (assignment) => assignment.id !== id
+      );
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
+  return { ...toRefs(state), load, store, show, update, destroy };
 }

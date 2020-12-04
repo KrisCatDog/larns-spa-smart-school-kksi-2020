@@ -20,6 +20,7 @@ export default function useAttendances() {
       response.data.data.forEach((item) => {
         item.isSettingModalActive = false;
         item.isDeleteModalActive = false;
+        item.isEditModalActive = false;
 
         state.attendances.push(item);
       });
@@ -65,6 +66,31 @@ export default function useAttendances() {
     }
   };
 
+  const update = async (classroomId, id, data) => {
+    state.errorStore = null;
+
+    try {
+      const response = await axios.put(
+        `/classrooms/${classroomId}/attendances/${id}`,
+        data,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      const index = state.attendances.findIndex(
+        (attendance) => attendance.id === id
+      );
+
+      state.attendances[index] = response.data.data;
+    } catch (e) {
+      state.errorStore = e.response.status;
+    }
+  };
+
   const destroy = async (classroomId, id) => {
     try {
       await axios.delete(`/classrooms/${classroomId}/attendances/${id}`, {
@@ -105,5 +131,5 @@ export default function useAttendances() {
     }
   };
 
-  return { ...toRefs(state), load, store, storeRespond, show, destroy };
+  return { ...toRefs(state), load, store, storeRespond, show, destroy, update };
 }
