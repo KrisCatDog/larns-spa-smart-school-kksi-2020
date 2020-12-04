@@ -1,9 +1,9 @@
 <template>
   <div
-    class="w-full md:w-1/5 pb-6 flex flex-col bg-white rounded-md shadow-sm self-start"
+    class="w-full md:w-1/4 pb-4 flex flex-col bg-white rounded-md shadow-sm self-start"
   >
     <p
-      class="text-center uppercase text-white font-bold bg-red-400 px-2 py-3 rounded-tl-md rounded-tr-md"
+      class="text-center uppercase text-white bg-red-400 px-2 py-3 rounded-tl-md rounded-tr-md"
     >
       Student Work
     </p>
@@ -11,7 +11,7 @@
     <div class="flex flex-col px-4 mt-4 space-y-2">
       <div
         class="px-2 font-medium text-red-400 text-sm"
-        v-if="!assignmentResults"
+        v-if="!assignmentResults[0]"
       >
         Nobody do this!
       </div>
