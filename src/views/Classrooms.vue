@@ -126,9 +126,11 @@
       v-if="isJoinClassModalActive"
       class="fixed rounded-xl w-80 bg-white flex flex-col z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >
-      <img src="./../assets/logo.svg" alt="larns logo" class="w-24 px-6 pt-6" />
+      <div class="bg-gray-50 py-6 rounded-tl-xl rounded-tr-xl">
+        <img src="./../assets/logo.svg" alt="larns logo" class="w-24 px-6" />
+      </div>
 
-      <h2 class="text-2xl font-bold px-6 pt-6">Join a Classroom</h2>
+      <h2 class="text-2xl font-bold px-6 mt-2">Join a Classroom</h2>
 
       <form class="mt-6 px-6 pb-3" autocomplete="off">
         <div class="flex flex-col mb-6">
@@ -145,11 +147,11 @@
       </form>
 
       <div
-        class="px-6 py-4 bg-red-300 rounded-bl-xl rounded-br-xl flex justify-end space-x-2"
+        class="px-6 py-4 bg-gray-50 rounded-bl-xl rounded-br-xl flex justify-end space-x-2"
       >
         <button
           @click.prevent="isJoinClassModalActive = false"
-          class="inline-flex items-center self-end bg-red-300 hover:bg-red-400 text-white py-2 px-6 transition duration-100 ease-in border border-red-300 hover:border-red-400 rounded-full focus:outline-none"
+          class="mt-3 w-full inline-flex justify-center rounded-full border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-opacity-75 focus:ring-red-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
         >
           <span class="text-sm font-bold">Cancel</span>
         </button>
@@ -173,9 +175,11 @@
       v-if="isCreateClassModalActive"
       class="fixed rounded-xl w-80 bg-white flex flex-col z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
     >
-      <img src="./../assets/logo.svg" alt="larns logo" class="w-24 px-6 pt-6" />
+      <div class="bg-gray-50 py-6 rounded-tl-xl rounded-tr-xl">
+        <img src="./../assets/logo.svg" alt="larns logo" class="w-24 px-6" />
+      </div>
 
-      <h2 class="text-2xl font-bold px-6 pt-6">Create a Classroom</h2>
+      <h2 class="text-2xl font-bold px-6 mt-2">Create a Classroom</h2>
 
       <div class="mt-6 px-6 pb-3">
         <div class="flex flex-col mb-6">
@@ -214,11 +218,11 @@
       </div>
 
       <div
-        class="px-6 py-4 bg-red-300 rounded-bl-xl rounded-br-xl flex justify-end space-x-2"
+        class="px-6 py-4 bg-gray-50 rounded-bl-xl rounded-br-xl flex justify-end space-x-2"
       >
         <button
           @click.prevent="isCreateClassModalActive = false"
-          class="inline-flex items-center self-end bg-red-300 hover:bg-red-400 text-white py-2 px-6 transition duration-100 ease-in border border-red-300 hover:border-red-400 rounded-full focus:outline-none"
+          class="mt-3 w-full inline-flex justify-center rounded-full border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-opacity-75 focus:ring-red-300 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
         >
           <span class="text-sm font-bold">Cancel</span>
         </button>
@@ -289,12 +293,12 @@ export default {
       await store(formCreate);
 
       if (errorStore.value === 422) {
+        isCreateClassModalActive.value = true;
+      } else {
         formCreate.name = null;
         formCreate.grade = null;
         formCreate.major = null;
 
-        isCreateClassModalActive.value = true;
-      } else {
         isCreateClassModalActive.value = false;
       }
 
@@ -327,22 +331,4 @@ export default {
 };
 </script>
 
-<style>
-.modal-create-enter-active {
-  animation: bounce-in 0.5s;
-}
-/* .modal-create-leave-active {
-  animation: bounce-in 0.5s reverse;
-} */
-@keyframes bounce-in {
-  0% {
-    transform: translate(-50%, -50%) scale(0);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.25);
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-</style>
+
