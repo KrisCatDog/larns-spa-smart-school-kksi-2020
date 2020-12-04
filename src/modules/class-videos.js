@@ -5,6 +5,8 @@ const state = reactive({ classVideos: [] });
 
 export default function useClassVideos() {
   const load = async (id) => {
+    state.classVideos = [];
+
     try {
       const response = await axios.get(`/classrooms/${id}/class-videos`, {
         headers: {
@@ -13,7 +15,13 @@ export default function useClassVideos() {
         },
       });
 
-      state.classVideos = response.data.data;
+      response.data.data.forEach((item) => {
+        item.isSettingModalActive = false;
+        item.isDeleteModalActive = false;
+        item.isEditModalActive = false;
+
+        state.classVideos.push(item);
+      });
     } catch (e) {
       console.log(e.response);
     }
@@ -56,5 +64,45 @@ export default function useClassVideos() {
     }
   };
 
-  return { ...toRefs(state), load, store, show };
+  const update = async (classroomId, id, data) => {
+    try {
+      const response = await axios.put(
+        `/classrooms/${classroomId}/class-videos/${id}`,
+        data,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      const index = state.classVideos.findIndex(
+        (classVideo) => classVideo.id === id
+      );
+
+      state.classVideos[index] = response.data.data;
+    } catch (e) {
+      state.errorStore = e.response.status;
+    }
+  };
+
+  const destroy = async (classroomId, id) => {
+    try {
+      await axios.delete(`/classrooms/${classroomId}/class-videos/${id}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+
+      state.classVideos = state.classVideos.filter(
+        (classVideo) => classVideo.id !== id
+      );
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
+  return { ...toRefs(state), load, store, show, update, destroy };
 }
