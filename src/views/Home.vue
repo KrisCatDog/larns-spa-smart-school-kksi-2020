@@ -38,13 +38,12 @@
           alt="larns logo"
           class="w-60 sm:w-64 md:w-80"
         />
-        <h2
-          class="pt-4 font-light text-sm sm:text-base text-center sm:text-left"
-        >
-          learning management system
+        <h2 class="pt-6 text-sm sm:text-base text-center sm:text-left">
+          The <span class="text-red-400 font-bold">Lightweight</span> Learning
+          Management System
         </h2>
 
-        <div class="flex flex-col items-center sm:flex-row mt-6 md:mt-12 -ml-3">
+        <div class="flex flex-col items-center sm:flex-row mt-6 md:mt-16 -ml-3">
           <router-link
             :to="{ name: 'Signin' }"
             class="inline-flex items-center bg-red-400 hover:bg-red-500 text-white mt-3 sm:mt-0 mx-3 py-2 px-8 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full"
