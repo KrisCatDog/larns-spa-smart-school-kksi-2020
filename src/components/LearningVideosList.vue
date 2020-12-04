@@ -1,7 +1,7 @@
 <template>
   <div
-    v-for="learningVideo in state.learningVideos"
-    :key="learningVideo.id"
+    v-for="classVideo in classVideos"
+    :key="classVideo.id"
     class="bg-white rounded-md shadow-sm px-8 py-6 mb-3 flex items-center justify-between"
   >
     <div class="w-1/2 sm:w-1/3 pr-10 flex items-center">
@@ -21,7 +21,7 @@
 
       <div class="ml-5 flex flex-col w-full">
         <h3 class="truncate font-semibold text-sm">
-          {{ learningVideo.title }}
+          {{ classVideo.title }}
         </h3>
         <p class="mt-1 text-sm">Posted at Nov 13</p>
       </div>
@@ -29,6 +29,15 @@
 
     <div class="flex">
       <button
+        @click="
+          $router.push({
+            name: 'LearningVideoDetail',
+            params: {
+              classroomId: $route.params.classroomId,
+              learningVideoId: classVideo.id,
+            },
+          })
+        "
         class="flex items-center border border-red-500 text-red-500 px-4 py-1 mr-6 text-sm rounded-full transition duration-100 ease-in-out hover:bg-red-500 hover:border-red-500 hover:text-white focus:outline-none"
       >
         <svg
@@ -61,30 +70,20 @@
 </template>
 
 <script>
-import { reactive } from "vue";
 import { useRoute } from "vue-router";
-import axios from "axios";
+import useClassVideos from "../modules/class-videos";
 
 export default {
   name: "LearningVideosList",
   async setup() {
     const route = useRoute();
-    const state = reactive({ learningVideos: [] });
 
-    const response = await axios.get(
-      `/classrooms/${route.params.classroomId}/class-videos`,
-      {
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-        },
-      }
-    );
+    const { load, classVideos } = useClassVideos();
 
-    state.learningVideos = response.data.data;
+    await load(route.params.classroomId);
 
     return {
-      state,
+      classVideos,
     };
   },
 };
