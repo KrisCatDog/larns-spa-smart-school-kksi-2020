@@ -16,7 +16,7 @@
       <div
         class="h-full w-1/3 bg-gray-500 rounded-tl-xl rounded-bl-xl"
         style="
-          background-image: url('https://placekitten.com/200/204');
+          background-image: url(`https://picsum.photos/200`);
           background-size: cover;
         "
       ></div>
@@ -70,7 +70,7 @@
           </button>
 
           <button
-            @click="submitLogout"
+            @click.prevent="submitDestroyClassroom(classroom.uuid)"
             class="w-full text-black-300 font-medium px-4 py-2 flex items-center hover:bg-gray-100 focus:outline-none"
           >
             <div class="inline-block text-sm">Delete</div>
@@ -90,7 +90,7 @@ export default {
   name: "ClassroomsList",
   async setup() {
     const { authUser } = useAuth();
-    const { load, classrooms } = useClassrooms();
+    const { load, classrooms, destroy } = useClassrooms();
 
     const user = ref(null);
 
@@ -106,10 +106,17 @@ export default {
       classroom.isSettingModalActive = !classroom.isSettingModalActive;
     }
 
+    async function submitDestroyClassroom(id) {
+      event.stopPropagation();
+
+      await destroy(id);
+    }
+
     return {
       classrooms,
       showSettingModal,
       user,
+      submitDestroyClassroom,
     };
   },
 };
