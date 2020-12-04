@@ -265,7 +265,7 @@ export default {
   setup() {
     const router = useRouter();
     const form = reactive({
-      email: "admin@admin.com",
+      email: "teacher@teacher.com",
       password: "password",
       isSubmitClicked: false,
     });

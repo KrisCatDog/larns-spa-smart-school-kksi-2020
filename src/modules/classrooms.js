@@ -42,6 +42,23 @@ export default function useClassrooms() {
     }
   };
 
+  const destroy = async (classroomId) => {
+    try {
+      await axios.delete(`/classrooms/${classroomId}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+
+      state.classrooms = state.classrooms.filter(
+        (classroom) => classroom.uuid != classroomId
+      );
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
   const joinClass = async (data) => {
     try {
       const response = await axios.post(`/classrooms/join-class`, data, {
@@ -62,5 +79,6 @@ export default function useClassrooms() {
     load,
     store,
     joinClass,
+    destroy,
   };
 }

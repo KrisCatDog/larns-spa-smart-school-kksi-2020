@@ -49,6 +49,7 @@
 
       <div class="col-span-6">
         <div
+          v-if="user && user.role.name == 'Teacher'"
           class="bg-white rounded-md shadow-sm px-8 py-5 mb-5 flex flex-col overflow-hidden"
         >
           <transition
@@ -167,11 +168,12 @@
 </template>
 
 <script>
-import { defineAsyncComponent, reactive, ref } from "vue";
+import { defineAsyncComponent, onMounted, reactive, ref } from "vue";
 import ClassroomNav from "./../components/ClassroomNav";
 import CircleLoading from "./../components/CircleLoading";
 import { useRoute } from "vue-router";
 import useAssignments from "./../modules/assignments";
+import useAuth from "../modules/auth";
 
 const ClassroomHeader = defineAsyncComponent(() =>
   import("./../components/ClassroomHeader")
@@ -203,6 +205,13 @@ export default {
     });
     const { store } = useAssignments();
 
+    const user = ref(null);
+    const { authUser } = useAuth();
+
+    onMounted(async () => {
+      user.value = await authUser();
+    });
+
     async function submitStoreAssignment() {
       form.isSubmitClicked = true;
 
@@ -225,6 +234,7 @@ export default {
       resetForm,
       submitStoreAssignment,
       isStoreViewShowed,
+      user,
     };
   },
 };

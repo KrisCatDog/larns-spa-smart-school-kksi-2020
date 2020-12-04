@@ -52,6 +52,16 @@ const routes = [
     },
   },
   {
+    path:
+      "/classrooms/:classroomId/attendances/:attendanceId/attendance-responds",
+    name: "AttendanceResponds",
+    component: () => import("../views/AttendanceResponds.vue"),
+    meta: {
+      title: "Attendance Responds - Classroom",
+      middleware: [auth],
+    },
+  },
+  {
     path: "/classrooms/:classroomId/assignments",
     name: "Assignments",
     component: () => import("../views/Assignments.vue"),
@@ -66,6 +76,15 @@ const routes = [
     component: () => import("../views/AssignmentDetail.vue"),
     meta: {
       title: "Assignment Detail - Classroom",
+      middleware: [auth],
+    },
+  },
+  {
+    path: "/classrooms/:classroomId/assignments/:assignmentId/results",
+    name: "AssignmentResults",
+    component: () => import("../views/AssignmentResults.vue"),
+    meta: {
+      title: "Assignment Results - Classroom",
       middleware: [auth],
     },
   },
@@ -97,6 +116,15 @@ const routes = [
     },
   },
   {
+    path: "/classrooms/:classroomId/learning-videos/:learningVideoId",
+    name: "LearningVideoDetail",
+    component: () => import("../views/LearningVideoDetail.vue"),
+    meta: {
+      title: "Learning Video Detail - Classroom",
+      middleware: [auth],
+    },
+  },
+  {
     path: "/classrooms/:classroomId/exams",
     name: "Exams",
     component: () => import("../views/Exams.vue"),
@@ -111,6 +139,15 @@ const routes = [
     component: () => import("../views/Discussions.vue"),
     meta: {
       title: "Discussions - Classroom",
+      middleware: [auth],
+    },
+  },
+  {
+    path: "/classrooms/:classroomId/discussions/:questionId",
+    name: "DiscussionDetail",
+    component: () => import("../views/DiscussionDetail.vue"),
+    meta: {
+      title: "Discussion Detail - Classroom",
       middleware: [auth],
     },
   },

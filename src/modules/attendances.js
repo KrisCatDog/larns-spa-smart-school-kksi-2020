@@ -19,6 +19,7 @@ export default function useAttendances() {
 
       response.data.data.forEach((item) => {
         item.isSettingModalActive = false;
+        item.isDeleteModalActive = false;
 
         state.attendances.push(item);
       });
@@ -41,6 +42,41 @@ export default function useAttendances() {
       );
 
       state.attendances.unshift(response.data.data);
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
+  const show = async (classroomId, id) => {
+    try {
+      const response = await axios.get(
+        `/classrooms/${classroomId}/attendances/${id}`,
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+          },
+        }
+      );
+
+      return response.data.data;
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+
+  const destroy = async (classroomId, id) => {
+    try {
+      await axios.delete(`/classrooms/${classroomId}/attendances/${id}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+        },
+      });
+
+      state.attendances = state.attendances.filter(
+        (attendance) => attendance.id !== id
+      );
     } catch (e) {
       console.log(e.response);
     }
@@ -69,5 +105,5 @@ export default function useAttendances() {
     }
   };
 
-  return { ...toRefs(state), load, store, storeRespond };
+  return { ...toRefs(state), load, store, storeRespond, show, destroy };
 }

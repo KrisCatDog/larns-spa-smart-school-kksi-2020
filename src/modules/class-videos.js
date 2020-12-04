@@ -1,27 +1,19 @@
-import axios from "axios";
 import { reactive, toRefs } from "vue";
+import axios from "axios";
 
-const state = reactive({
-  assignments: [],
-});
+const state = reactive({ classVideos: [] });
 
-export default function useAssignments() {
+export default function useClassVideos() {
   const load = async (id) => {
-    state.assignments = [];
-
     try {
-      const response = await axios.get(`/classrooms/${id}/assignments`, {
+      const response = await axios.get(`/classrooms/${id}/class-videos`, {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
       });
 
-      response.data.data.forEach((item) => {
-        item.isSettingModalActive = false;
-
-        state.assignments.push(item);
-      });
+      state.classVideos = response.data.data;
     } catch (e) {
       console.log(e.response);
     }
@@ -30,7 +22,7 @@ export default function useAssignments() {
   const store = async (classroomId, data) => {
     try {
       const response = await axios.post(
-        `/classrooms/${classroomId}/assignments`,
+        `/classrooms/${classroomId}/class-videos`,
         data,
         {
           headers: {
@@ -40,7 +32,7 @@ export default function useAssignments() {
         }
       );
 
-      state.assignments.unshift(response.data.data);
+      state.classVideos.unshift(response.data.data);
     } catch (e) {
       console.log(e.response);
     }
@@ -49,7 +41,7 @@ export default function useAssignments() {
   const show = async (classroomId, id) => {
     try {
       const response = await axios.get(
-        `/classrooms/${classroomId}/assignments/${id}`,
+        `/classrooms/${classroomId}/class-videos/${id}`,
         {
           headers: {
             Accept: "application/json",
