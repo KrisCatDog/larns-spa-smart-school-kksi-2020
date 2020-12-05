@@ -159,6 +159,11 @@
         <button
           @click.prevent="submitJoinClass"
           class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white py-2 px-6 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
+          :disabled="formJoin.isSubmitClicked"
+          :class="{
+            'disabled:opacity-75 disabled:cursor-not-allowed':
+              formJoin.isSubmitClicked,
+          }"
         >
           <CircleLoading v-if="formJoin.isSubmitClicked" />
 
@@ -230,6 +235,11 @@
         <button
           type="submit"
           class="inline-flex items-center self-end bg-red-400 hover:bg-red-500 text-white py-2 px-6 transition duration-100 ease-in border border-red-400 hover:border-red-500 rounded-full focus:outline-none"
+          :disabled="formCreate.isSubmitClicked"
+          :class="{
+              'disabled:opacity-75 disabled:cursor-not-allowed':
+                formCreate.isSubmitClicked,
+            }"
         >
           <CircleLoading v-if="formCreate.isSubmitClicked" />
 

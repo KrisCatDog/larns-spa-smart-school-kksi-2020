@@ -1,7 +1,7 @@
 <template>
   <EmptyAlert
     message="There's no attendance here!"
-    messageBold="Go add one!"
+    :messageBold="boldAlertMessage(user.role.name)"
     v-if="!attendances[0]"
   />
 
@@ -440,6 +440,14 @@ export default {
       return attendanceResponds[index];
     }
 
+    function boldAlertMessage(roleName) {
+      if (roleName == "Teacher") {
+        return "Go create one!";
+      } else {
+        return "Horayy!";
+      }
+    }
+
     async function submitAttendance(id, status) {
       if (status == "attend") {
         isAttendSubmitted.value = true;
@@ -514,6 +522,7 @@ export default {
       submitEditAttendance,
       checkIfUserHasFillAttendance,
       checkIfUserNotFillAttendance,
+      boldAlertMessage,
     };
   },
 };

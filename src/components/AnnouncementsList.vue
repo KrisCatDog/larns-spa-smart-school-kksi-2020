@@ -1,7 +1,7 @@
 <template>
   <EmptyAlert
     message="There's no announcement here!"
-    messageBold="Go post one!"
+    :messageBold="boldAlertMessage(user.role.name)"
     v-if="!announcements[0]"
   />
 
@@ -339,6 +339,14 @@ export default {
 
     await load(route.params.classroomId);
 
+    function boldAlertMessage(roleName) {
+      if (roleName == "Teacher") {
+        return "Go post one!";
+      } else {
+        return "Horayy!";
+      }
+    }
+
     async function submitDeleteAnnouncement(id) {
       isDeleteButtonClicked.value = true;
 
@@ -362,6 +370,7 @@ export default {
       isDeleteButtonClicked,
       submitDeleteAnnouncement,
       submitEditAnnouncement,
+      boldAlertMessage,
     };
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <EmptyAlert
     message="There's no assignment here!"
-    messageBold="Go post one!"
+    :messageBold="boldAlertMessage(user.role.name)"
     v-if="!assignments[0]"
   />
 
@@ -359,6 +359,14 @@ export default {
 
     await load(route.params.classroomId);
 
+    function boldAlertMessage(roleName) {
+      if (roleName == "Teacher") {
+        return "Go post one!";
+      } else {
+        return "Horayy!";
+      }
+    }
+
     async function submitDeleteAssignment(id) {
       isDeleteButtonClicked.value = true;
 
@@ -382,6 +390,7 @@ export default {
       submitEditAssignment,
       isEditButtonClicked,
       isDeleteButtonClicked,
+      boldAlertMessage,
     };
   },
 };

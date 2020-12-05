@@ -1,7 +1,7 @@
 <template>
   <EmptyAlert
     message="There's no video here!"
-    messageBold="Go upload one!"
+    :messageBold="boldAlertMessage(user.role.name)"
     v-if="!classVideos[0]"
   />
 
@@ -340,6 +340,14 @@ export default {
 
     await load(route.params.classroomId);
 
+    function boldAlertMessage(roleName) {
+      if (roleName == "Teacher") {
+        return "Go upload one!";
+      } else {
+        return "Horayy!";
+      }
+    }
+
     async function submitDeleteClassVideo(id) {
       isDeleteButtonClicked.value = true;
 
@@ -363,6 +371,7 @@ export default {
       isDeleteButtonClicked,
       submitDeleteClassVideo,
       submitEditClassVideo,
+      boldAlertMessage,
     };
   },
 };

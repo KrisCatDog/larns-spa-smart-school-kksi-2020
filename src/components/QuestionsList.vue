@@ -1,7 +1,7 @@
 <template>
   <EmptyAlert
     message="There's no discussion question here!"
-    messageBold="Go post one!"
+    :messageBold="boldAlertMessage(user.role.name)"
     v-if="!questions[0]"
   />
 
@@ -336,6 +336,14 @@ export default {
 
     await load(route.params.classroomId);
 
+    function boldAlertMessage(roleName) {
+      if (roleName == "Teacher") {
+        return "Go post one!";
+      } else {
+        return "Horayy!";
+      }
+    }
+
     async function submitDeleteQuestion(id) {
       isDeleteButtonClicked.value = true;
 
@@ -359,6 +367,7 @@ export default {
       isDeleteButtonClicked,
       submitDeleteQuestion,
       submitEditQuestion,
+      boldAlertMessage,
     };
   },
 };
