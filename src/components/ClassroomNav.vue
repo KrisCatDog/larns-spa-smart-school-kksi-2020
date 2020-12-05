@@ -56,7 +56,7 @@
           />
         </svg>
 
-        <span class="inline-block pb-1 ml-2 text-sm">Annoucements</span>
+        <span class="inline-block pb-1 ml-2 text-sm">Announcements</span>
       </router-link>
 
       <router-link
